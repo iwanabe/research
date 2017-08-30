@@ -126,6 +126,6 @@ onload = function(){
         context.putImageData(dntImg, 0, 0);
         
         
-        point = SearchBlackPoint(dntImg);
+        //point = SearchBlackPoint(dntImg);
     };
 }
