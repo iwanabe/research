@@ -118,14 +118,13 @@ onload = function(){
 	    var binImg = context.createImageData(width, height);
         var cntImg = context.createImageData(width, height);
         var dntImg = context.createImageData(width, height);
+        var entImg = context.createImageData(width, height);
         
 	    binarize(srcImg, binImg);       
 	    Laplacian(binImg, cntImg);
 	    binarize(cntImg, dntImg);
-	     
-        context.putImageData(dntImg, 0, 0);
-        
-        
-        //point = SearchBlackPoint(dntImg);
+		
+		ListContourPlot(dntImg,entImg);
+        context.putImageData(entImg, 0, 0); 
     };
 }
