@@ -10,7 +10,7 @@ binarize = function(srcImg, dstImg){
     var dst = dstImg.data;
     
     for(var i = 0; i < height; ++i){
-       for(var j = 0; j < width; ++j){         
+       for(var j = 0; j < width; ++j){
              var idx = (j + i*width)*4;
              var r = src[idx];
              var g = src[idx+1];
@@ -123,8 +123,65 @@ onload = function(){
 	    binarize(srcImg, binImg);       
 	    Laplacian(binImg, cntImg);
 	    binarize(cntImg, dntImg);
+	
+	
+	
+	console.log("start");
+	
+		var d = new Array(height);
+		var dmin = 10000;
+		var dmax = 0;
+		var c = 0;
 		
-		ListContourPlot(dntImg,entImg);
-        context.putImageData(entImg, 0, 0); 
+		var NFList = new Point2d();
+		getContour(dntImg,NFList);
+		
+		for(var x = 0 ; x < height ; x++){
+		d[x]=new Array(width);
+		for(var y = 0 ; y < width ; y++){
+			d[x][y] = computeDistPoint(y,x,NFList);
+			if (dmax < d[x][y]) {
+        	dmax = d[x][y];
+        	}
+        	
+        	if(dmin > d[x][y] && d[x][y] != 0){
+        	dmin = d[x][y];
+        	}
+        	c++;
+		}
+		}
+		for(var i=0;i<height;i++){
+		for(var j=0;j<width;j++){
+		var a = (d[i][j]-dmin)/(dmax-dmin);
+		//if(a == 0){
+		
+		Plot(dntImg,entImg,i,j,a);
+		//}
+		}
+		}
+		
+		console.log("fin");
+		context.putImageData(entImg, 0, 0); 
     };
+}
+
+Plot = function(srcImg,dstImg,i,j,k){
+	var src = srcImg.data;
+	var dst = dstImg.data;
+	var x = i;
+	var y = j;
+	var aaa = k;
+	//console.log("axy "+aaa+" "+x+" "+y);
+	var width = srcImg.width;
+	
+			var idx = (x*width + y)*4;
+            var r = src[idx];
+            var g = src[idx+1];
+            var b = src[idx+2];
+            var a = src[idx+3];
+            
+			dst[idx] = 0;
+			dst[idx+1] = 0;
+			dst[idx+2] = Math.floor(255*aaa);
+			dst[idx+3] = 255;
 }
