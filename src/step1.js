@@ -126,7 +126,7 @@ onload = function(){
 	
 	
 	
-	console.log("start");
+	console.log("start wait plese");
 	
 		var d = new Array(height);
 		var dmin = 10000;
@@ -180,8 +180,15 @@ Plot = function(srcImg,dstImg,i,j,k){
             var b = src[idx+2];
             var a = src[idx+3];
             
-			dst[idx] = 0;
-			dst[idx+1] = 0;
+		var rrr = 0;
+		var ggg = 0;
+		var bbb = 0;	
+		//	if(aaa > 1.5){rrr = 1;}
+		//	if(aaa <= 1.5 && aaa > 0){ggg = 1;}
+		//	if(aaa == 0){bbb = 1;}
+			
+			dst[idx] = Math.floor(255*aaa);
+			dst[idx+1] = Math.floor(255*aaa);
 			dst[idx+2] = Math.floor(255*aaa);
 			dst[idx+3] = 255;
 }
