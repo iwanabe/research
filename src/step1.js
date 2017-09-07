@@ -120,12 +120,19 @@ onload = function(){
         var dntImg = context.createImageData(width, height);
         var entImg = context.createImageData(width, height);
         
-	    binarize(srcImg, binImg);       
+	    binarize(srcImg, binImg);
 	    Laplacian(binImg, cntImg);
 	    binarize(cntImg, dntImg);
 	
 		console.log("start wait plese");
-	
+		
+		
+		/*
+		Calculate the shortest distance to the contour and put it in d[][].
+		At that time, the maximum value and the minimum value of the distance are saved. 
+		Then call the function and color it.
+		*/
+		
 		var d = new Array(height);
 		var dmin = 10000;
 		var dmax = 0;
@@ -136,13 +143,13 @@ onload = function(){
 		var n = getContour(dntImg,NFList);
 		
 		for(var x = 0 ; x < height ; x++){
-			d[x]=new Array(width);
+			d[x] = new Array(width);
 			for(var y = 0 ; y < width ; y++){
 				d[x][y] = computeDistPoint(y,x,NFList,n);
-				if(dmax < d[x][y]) {
+				if(dmax < d[x][y]){
         			dmax = d[x][y];
         		}
-        		if(dmin > d[x][y] && d[x][y] != 0){
+        		if(dmin > d[x][y]){
         			dmin = d[x][y];
         		}
 			}
