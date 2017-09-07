@@ -124,79 +124,91 @@ onload = function(){
 	    Laplacian(binImg, cntImg);
 	    binarize(cntImg, dntImg);
 	
-	
-	
 		console.log("start wait plese");
 	
 		var d = new Array(height);
 		var dmin = 10000;
 		var dmax = 0;
-		var c = 0;
-		
 		var NFList = new Point2d();
+		
+		// n have NFList.length
+		//
 		var n = getContour(dntImg,NFList);
 		
 		for(var x = 0 ; x < height ; x++){
 			d[x]=new Array(width);
 			for(var y = 0 ; y < width ; y++){
 				d[x][y] = computeDistPoint(y,x,NFList,n);
-				if (dmax < d[x][y]) {
+				if(dmax < d[x][y]) {
         			dmax = d[x][y];
         		}
         		if(dmin > d[x][y] && d[x][y] != 0){
         			dmin = d[x][y];
         		}
-        		c++;
 			}
 		}
-		var ddd=[];
-		for(var i=0;i<height;i++){
-			for(var j=0;j<width;j++){
-				ddd = (d[i][j]-dmin)/(dmax-dmin);  //distance to [0,1]
-				Plot(dntImg,entImg,i,j,ddd);       //color plot function
+		
+		// nd is normalized distance
+		//
+		var nd;
+		for(var i = 0; i < height; i++){
+			for(var j = 0; j < width; j++){
+				nd = (d[i][j]-dmin)/(dmax-dmin);
+				ListContourPlot(dntImg,entImg,i,j,nd);
 			}
 		}
 		console.log("fin");
-		context.putImageData(entImg, 0, 0); 
+		context.putImageData(entImg, 0, 0);
     };
 }
 
-Plot = function(srcImg,dstImg,height,width,distance){
+// Change the color according to the distance from the contour
+// input:
+// srcImg: w*h*4 image with the contour obtained from binarize & Laplacian
+// dstImg: out put image
+// distance: normalized distance
+//
+//
+ListContourPlot = function(srcImg, dstImg, height, width, distance){
 	var src = srcImg.data;
 	var dst = dstImg.data;
+	
 	var x = height;
 	var y = width;
-	var aaa = distance;
-
-	var width = srcImg.width;
+	var f = distance;
+	var w = srcImg.width;
 	
-	var idx = (x*width + y)*4;
-    
-	var rrr = 255;
-	var ggg = 255;
-	var bbb = 255;
-			
-	if(aaa<0.10){rrr=2;ggg=95;bbb=97;}
-	if(aaa>0.10&&aaa<0.20){rrr=25;ggg=109;bbb=93;}
-	if(aaa>0.20&&aaa<0.30){rrr=47;ggg=124;bbb=89;}
-	if(aaa>0.30&&aaa<0.40){rrr=71;ggg=138;bbb=85;}
-	if(aaa>0.40&&aaa<0.50){rrr=94;ggg=153;bbb=81;}
-	if(aaa>0.50&&aaa<0.60){rrr=117;ggg=167;bbb=76;}
-	if(aaa>0.60&&aaa<0.70){rrr=140;ggg=182;bbb=72;}
-	if(aaa>0.70&&aaa<0.80){rrr=163;ggg=196;bbb=68;}
-	if(aaa>0.80){rrr=186;ggg=211;bbb=64;}
+	var idx = (x*w + y)*4;
+	var r = 0;
+	var g = 0;
+	var b = 0;
 	
-	if(aaa>0.09&&aaa<0.101
-	||aaa>0.19&&aaa<0.201
-	||aaa>0.29&&aaa<0.301
-	||aaa>0.39&&aaa<0.401
-	||aaa>0.49&&aaa<0.501
-	||aaa>0.59&&aaa<0.601
-	||aaa>0.69&&aaa<0.701){
-		rrr=255;ggg=255;bbb=255;
+	// color map
+	//
+	if(f<0.10){r=2; g=95; b=97;}
+	if(f>0.10 && f<0.20){r=25; g=109; b=93;}
+	if(f>0.20 && f<0.30){r=47; g=124; b=89;}
+	if(f>0.30 && f<0.40){r=71; g=138; b=85;}
+	if(f>0.40 && f<0.50){r=94; g=153; b=81;}
+	if(f>0.50 && f<0.60){r=117; g=167; b=76;}
+	if(f>0.60 && f<0.70){r=140; g=182; b=72;}
+	if(f>0.70 && f<0.80){r=163; g=196; b=68;}
+	if(f>0.80){r=186; g=211; b=64;}
+	
+	// border line is white
+	//
+	if(f>0.09 && f<0.101
+	||f>0.19 && f<0.201
+	||f>0.29 && f<0.301
+	||f>0.39 && f<0.401
+	||f>0.49 && f<0.501
+	||f>0.59 && f<0.601
+	||f>0.69 && f<0.701
+	||f>0.79 && f<0.801){
+		r=255; g=255; b=255;
 	}
-	dst[idx] = Math.floor(rrr);
-	dst[idx+1] = Math.floor(ggg);//ggg
-	dst[idx+2] = Math.floor(bbb);//bbb
+	dst[idx] = Math.floor(r);
+	dst[idx+1] = Math.floor(g);
+	dst[idx+2] = Math.floor(b);
 	dst[idx+3] = 255;
 }
