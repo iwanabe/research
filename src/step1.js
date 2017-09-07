@@ -153,8 +153,8 @@ onload = function(){
 		for(var i=0;i<height;i++){
 		for(var j=0;j<width;j++){
 		var a = (d[i][j]-dmin)/(dmax-dmin);
-		//if(a == 0){
-		
+		//if(a > 0.3&&a<0.4){
+		//console.log("x,y"+i+","+j+" a = "+a);
 		Plot(dntImg,entImg,i,j,a);
 		//}
 		}
@@ -180,15 +180,22 @@ Plot = function(srcImg,dstImg,i,j,k){
             var b = src[idx+2];
             var a = src[idx+3];
             
-		var rrr = 0;
-		var ggg = 0;
-		var bbb = 0;	
-		//	if(aaa > 1.5){rrr = 1;}
-		//	if(aaa <= 1.5 && aaa > 0){ggg = 1;}
-		//	if(aaa == 0){bbb = 1;}
+			var rrr = 255;
+			var ggg = 128;
+			var bbb = 0;	
 			
-			dst[idx] = Math.floor(255*aaa);
-			dst[idx+1] = Math.floor(255*aaa);
-			dst[idx+2] = Math.floor(255*aaa);
+			if(aaa > 0&&aaa<0.10){rrr=140;ggg=128;bbb=115;}
+			if(aaa > 0.10&&aaa<0.20){rrr=117;ggg=128;bbb=138;}
+			if(aaa > 0.20&&aaa<0.30){rrr=94;ggg=128;bbb=161;}
+			if(aaa > 0.30&&aaa<0.40){rrr=71;ggg=128;bbb=184;}
+			if(aaa >0.40 &&aaa<0.50){rrr=48;ggg=128;bbb=207;}
+			if(aaa >0.50){rrr=25;ggg=128;bbb=230;}
+			
+			if(aaa==0.1||aaa==0.2||aaa==0.3||aaa==0.4||aaa==0.5){
+				rrr=0;ggg=0;bbb=0;
+			}
+			dst[idx] = Math.floor(rrr);
+			dst[idx+1] = Math.floor(bbb);
+			dst[idx+2] = Math.floor(ggg);
 			dst[idx+3] = 255;
 }
