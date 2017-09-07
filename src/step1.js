@@ -150,15 +150,16 @@ onload = function(){
         	c++;
 		}
 		}
+		
+		var sss=0;
+		var ddd=[];
 		for(var i=0;i<height;i++){
 		for(var j=0;j<width;j++){
-		var a = (d[i][j]-dmin)/(dmax-dmin);
-		//if(a > 0.3&&a<0.4){
-		//console.log("x,y"+i+","+j+" a = "+a);
-		Plot(dntImg,entImg,i,j,a);
-		//}
+		ddd = (d[i][j]-dmin)/(dmax-dmin);
+		Plot(dntImg,entImg,i,j,ddd);
 		}
 		}
+		
 		
 		console.log("fin");
 		context.putImageData(entImg, 0, 0); 
@@ -171,31 +172,44 @@ Plot = function(srcImg,dstImg,i,j,k){
 	var x = i;
 	var y = j;
 	var aaa = k;
-	//console.log("axy "+aaa+" "+x+" "+y);
+	
+
+	
+	
 	var width = srcImg.width;
 	
 			var idx = (x*width + y)*4;
-            var r = src[idx];
-            var g = src[idx+1];
-            var b = src[idx+2];
-            var a = src[idx+3];
+          //  var r = src[idx];
+          //  var g = src[idx+1];
+          //  var b = src[idx+2];
+          //  var a = src[idx+3];
             
 			var rrr = 255;
-			var ggg = 128;
-			var bbb = 0;	
+			var ggg = 255;
+			var bbb = 255;
 			
-			if(aaa > 0&&aaa<0.10){rrr=140;ggg=128;bbb=115;}
-			if(aaa > 0.10&&aaa<0.20){rrr=117;ggg=128;bbb=138;}
-			if(aaa > 0.20&&aaa<0.30){rrr=94;ggg=128;bbb=161;}
-			if(aaa > 0.30&&aaa<0.40){rrr=71;ggg=128;bbb=184;}
-			if(aaa >0.40 &&aaa<0.50){rrr=48;ggg=128;bbb=207;}
-			if(aaa >0.50){rrr=25;ggg=128;bbb=230;}
+			if(aaa<0.10){rrr=2;ggg=95;bbb=97;}
+			if(aaa>0.10&&aaa<0.20){rrr=25;ggg=109;bbb=93;}
+			if(aaa>0.20&&aaa<0.30){rrr=47;ggg=124;bbb=89;}
+			if(aaa>0.30&&aaa<0.40){rrr=71;ggg=138;bbb=85;}
+			if(aaa>0.40&&aaa<0.50){rrr=94;ggg=153;bbb=81;}
+			if(aaa>0.50&&aaa<0.60){rrr=117;ggg=167;bbb=76;}
+			if(aaa>0.60&&aaa<0.70){rrr=140;ggg=182;bbb=72;}
+			if(aaa>0.70&&aaa<0.80){rrr=163;ggg=196;bbb=68;}
+			if(aaa>0.80){rrr=186;ggg=211;bbb=64;}
 			
-			if(aaa==0.1||aaa==0.2||aaa==0.3||aaa==0.4||aaa==0.5){
-				rrr=0;ggg=0;bbb=0;
+			if(aaa>0.09&&aaa<0.101
+			||aaa>0.19&&aaa<0.201
+			||aaa>0.29&&aaa<0.301
+			||aaa>0.39&&aaa<0.401
+			||aaa>0.49&&aaa<0.501
+			||aaa>0.59&&aaa<0.601
+			||aaa>0.69&&aaa<0.701
+			){
+			rrr=255;ggg=255;bbb=255;
 			}
 			dst[idx] = Math.floor(rrr);
-			dst[idx+1] = Math.floor(bbb);
-			dst[idx+2] = Math.floor(ggg);
+			dst[idx+1] = Math.floor(ggg);//ggg
+			dst[idx+2] = Math.floor(bbb);//bbb
 			dst[idx+3] = 255;
 }
