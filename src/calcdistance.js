@@ -30,19 +30,20 @@ getContour = function(cntImg, cntList) {
         cntList[n++] = new Point2d(i, j);
         }
     }
-    } 
-    
+    }
+   return n;
 }
 
 
 // Compute the dist from (x,y) to the curve approximated by
 // the list of points in cntList
 //
-computeDistPoint = function(x, y, cntList) {
+computeDistPoint = function(x, y, cntList,n) {
     var d = Number.MAX_VALUE;
     
+    var count = n;
     
-    for (var i = 0; i < 3726; i++) {//i<cntList.length
+    for (var i = 0; i < count; i++) {// i<cntList.length is error( 3726
     p = cntList[i];
     var dt = (x - p.x)*(x - p.x) + (y - p.y)*(y - p.y);
     if (dt < d) {

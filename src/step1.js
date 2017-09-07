@@ -126,7 +126,7 @@ onload = function(){
 	
 	
 	
-	console.log("start wait plese");
+		console.log("start wait plese");
 	
 		var d = new Array(height);
 		var dmin = 10000;
@@ -134,82 +134,69 @@ onload = function(){
 		var c = 0;
 		
 		var NFList = new Point2d();
-		getContour(dntImg,NFList);
+		var n = getContour(dntImg,NFList);
 		
 		for(var x = 0 ; x < height ; x++){
-		d[x]=new Array(width);
-		for(var y = 0 ; y < width ; y++){
-			d[x][y] = computeDistPoint(y,x,NFList);
-			if (dmax < d[x][y]) {
-        	dmax = d[x][y];
-        	}
-        	
-        	if(dmin > d[x][y] && d[x][y] != 0){
-        	dmin = d[x][y];
-        	}
-        	c++;
+			d[x]=new Array(width);
+			for(var y = 0 ; y < width ; y++){
+				d[x][y] = computeDistPoint(y,x,NFList,n);
+				if (dmax < d[x][y]) {
+        			dmax = d[x][y];
+        		}
+        		if(dmin > d[x][y] && d[x][y] != 0){
+        			dmin = d[x][y];
+        		}
+        		c++;
+			}
 		}
-		}
-		
-		var sss=0;
 		var ddd=[];
 		for(var i=0;i<height;i++){
-		for(var j=0;j<width;j++){
-		ddd = (d[i][j]-dmin)/(dmax-dmin);
-		Plot(dntImg,entImg,i,j,ddd);
+			for(var j=0;j<width;j++){
+				ddd = (d[i][j]-dmin)/(dmax-dmin);  //distance to [0,1]
+				Plot(dntImg,entImg,i,j,ddd);       //color plot function
+			}
 		}
-		}
-		
-		
 		console.log("fin");
 		context.putImageData(entImg, 0, 0); 
     };
 }
 
-Plot = function(srcImg,dstImg,i,j,k){
+Plot = function(srcImg,dstImg,height,width,distance){
 	var src = srcImg.data;
 	var dst = dstImg.data;
-	var x = i;
-	var y = j;
-	var aaa = k;
-	
+	var x = height;
+	var y = width;
+	var aaa = distance;
 
-	
-	
 	var width = srcImg.width;
 	
-			var idx = (x*width + y)*4;
-          //  var r = src[idx];
-          //  var g = src[idx+1];
-          //  var b = src[idx+2];
-          //  var a = src[idx+3];
-            
-			var rrr = 255;
-			var ggg = 255;
-			var bbb = 255;
+	var idx = (x*width + y)*4;
+    
+	var rrr = 255;
+	var ggg = 255;
+	var bbb = 255;
 			
-			if(aaa<0.10){rrr=2;ggg=95;bbb=97;}
-			if(aaa>0.10&&aaa<0.20){rrr=25;ggg=109;bbb=93;}
-			if(aaa>0.20&&aaa<0.30){rrr=47;ggg=124;bbb=89;}
-			if(aaa>0.30&&aaa<0.40){rrr=71;ggg=138;bbb=85;}
-			if(aaa>0.40&&aaa<0.50){rrr=94;ggg=153;bbb=81;}
-			if(aaa>0.50&&aaa<0.60){rrr=117;ggg=167;bbb=76;}
-			if(aaa>0.60&&aaa<0.70){rrr=140;ggg=182;bbb=72;}
-			if(aaa>0.70&&aaa<0.80){rrr=163;ggg=196;bbb=68;}
-			if(aaa>0.80){rrr=186;ggg=211;bbb=64;}
-			
-			if(aaa>0.09&&aaa<0.101
-			||aaa>0.19&&aaa<0.201
-			||aaa>0.29&&aaa<0.301
-			||aaa>0.39&&aaa<0.401
-			||aaa>0.49&&aaa<0.501
-			||aaa>0.59&&aaa<0.601
-			||aaa>0.69&&aaa<0.701
-			){
-			rrr=255;ggg=255;bbb=255;
-			}
-			dst[idx] = Math.floor(rrr);
-			dst[idx+1] = Math.floor(ggg);//ggg
-			dst[idx+2] = Math.floor(bbb);//bbb
-			dst[idx+3] = 255;
+	if(aaa<0.10){rrr=2;ggg=95;bbb=97;}
+	if(aaa>0.10&&aaa<0.20){rrr=25;ggg=109;bbb=93;}
+	if(aaa>0.20&&aaa<0.30){rrr=47;ggg=124;bbb=89;}
+	if(aaa>0.30&&aaa<0.40){rrr=71;ggg=138;bbb=85;}
+	if(aaa>0.40&&aaa<0.50){rrr=94;ggg=153;bbb=81;}
+	if(aaa>0.50&&aaa<0.60){rrr=117;ggg=167;bbb=76;}
+	if(aaa>0.60&&aaa<0.70){rrr=140;ggg=182;bbb=72;}
+	if(aaa>0.70&&aaa<0.80){rrr=163;ggg=196;bbb=68;}
+	if(aaa>0.80){rrr=186;ggg=211;bbb=64;}
+	
+	if(aaa>0.09&&aaa<0.101
+	||aaa>0.19&&aaa<0.201
+	||aaa>0.29&&aaa<0.301
+	||aaa>0.39&&aaa<0.401
+	||aaa>0.49&&aaa<0.501
+	||aaa>0.59&&aaa<0.601
+	||aaa>0.69&&aaa<0.701){
+		rrr=255;ggg=255;bbb=255;
+	}
+	dst[idx] = Math.floor(rrr);
+	dst[idx+1] = Math.floor(ggg);//ggg
+	dst[idx+2] = Math.floor(bbb);//bbb
+	dst[idx+3] = 255;
 }
