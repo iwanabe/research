@@ -59,13 +59,19 @@ onload = function(){
 			}
 		}
 		
+		//inside: sign = 1
+		//outside: sign = 0
+		//binImg: binalizedImg
+		//
+		var sign = signednd(binImg);
+		
 		// nd is normalized distance
 		//
 		var nd;
 		for(var i = 0; i < height; i++){
 			for(var j = 0; j < width; j++){
 				nd = (d[i][j]-dmin)/(dmax-dmin);
-				ListContourPlot(dntImg,entImg,i,j,nd);
+				ListContourPlot(dntImg,entImg,i,j,nd,sign[i][j]);
 			}
 		}
 		console.log("fin");
