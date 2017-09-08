@@ -1,34 +1,34 @@
 
-onload = function(){   
-    if ( ! mycanvas || ! mycanvas.getContext ) {
-      return false;
-    }
-   
-    var img = new Image();
-    img.src = "image/Samurai-kanji.jpg";
-  
-    img.onload = function(e){
-    	var width = img.width;
-    	var height = img.height;
-        
-        var canvas = document.getElementById('mycanvas');
-        var context = canvas.getContext('2d');
-       
-        canvas.width = width;
-        canvas.height = height;
- 
-        context.drawImage(img, 0, 0);
-       
-        var srcImg = context.getImageData(0, 0, width, height);
-	    var binImg = context.createImageData(width, height);
-        var cntImg = context.createImageData(width, height);
-        var dntImg = context.createImageData(width, height);
-        var entImg = context.createImageData(width, height);
-        
-	    binarize(srcImg, binImg);
-	    Laplacian(binImg, cntImg);
-	    binarize(cntImg, dntImg);
+onload = function(){
+	if ( ! mycanvas || ! mycanvas.getContext ) {
+		return false;
+	}
 	
+	var img = new Image();
+	img.src = "image/Samurai-kanji.jpg";
+	
+	img.onload = function(e){
+		var width = img.width;
+		var height = img.height;
+		
+		var canvas = document.getElementById('mycanvas');
+		var context = canvas.getContext('2d');
+		
+		canvas.width = width;
+		canvas.height = height;
+		
+		context.drawImage(img, 0, 0);
+		
+		var srcImg = context.getImageData(0, 0, width, height);
+		var binImg = context.createImageData(width, height);
+		var cntImg = context.createImageData(width, height);
+		var dntImg = context.createImageData(width, height);
+		var entImg = context.createImageData(width, height);
+		
+		binarize(srcImg, binImg);
+		Laplacian(binImg, cntImg);
+		binarize(cntImg, dntImg);
+		
 		console.log("start wait plese");
 		
 		
@@ -51,11 +51,11 @@ onload = function(){
 			for(var y = 0 ; y < width ; y++){
 				d[x][y] = computeDistPoint(y,x,NFList);
 				if(dmax < d[x][y]){
-        			dmax = d[x][y];
-        		}
-        		if(dmin > d[x][y]){
-        			dmin = d[x][y];
-        		}
+					dmax = d[x][y];
+				}
+				if(dmin > d[x][y]){
+					dmin = d[x][y];
+				}
 			}
 		}
 		
@@ -76,5 +76,5 @@ onload = function(){
 		}
 		console.log("fin");
 		context.putImageData(entImg, 0, 0);
-    };
+	};
 }

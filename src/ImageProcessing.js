@@ -3,34 +3,35 @@
 // dstImg is the output (black and white) image)
 //
 binarize = function(srcImg, dstImg){
-    var width = srcImg.width;
-    var height = srcImg.height;
-    
-    var src = srcImg.data;
-    var dst = dstImg.data;
-    
-    for(var i = 0; i < height; ++i){
-    	for(var j = 0; j < width; ++j){
-       		var idx = (j + i*width)*4;
-        	var r = src[idx];
-            var g = src[idx+1];
-            var b = src[idx+2];
-            var a = src[idx+3];
-                
-            var avg = (r + g + b)/3;
-            if(avg < 128){ 
+	var width = srcImg.width;
+	var height = srcImg.height;
+	
+	var src = srcImg.data;
+	var dst = dstImg.data;
+	
+	for(var i = 0; i < height; ++i){
+		for(var j = 0; j < width; ++j){
+			var idx = (j + i*width)*4;
+			var r = src[idx];
+			var g = src[idx+1];
+			var b = src[idx+2];
+			var a = src[idx+3];
+			
+			var avg = (r + g + b)/3;
+			if(avg < 128){ 
 				dst[idx] = 255;
 				dst[idx+1] = 255;
 				dst[idx+2] = 255;
 				dst[idx+3] = 255;
-             } else {   
-             	dst[idx] = 0;
+			} 
+			else {   
+				dst[idx] = 0;
 				dst[idx+1] = 0;
 				dst[idx+2] = 0;
 				dst[idx+3] = 255;
-	     		}
-          }
-     }
+			}
+		}
+	}
 }
 
 
@@ -38,65 +39,66 @@ binarize = function(srcImg, dstImg){
 // image 'srcImg' and store the result in the image 'dstImg'
 //
 Laplacian = function(srcImg, dstImg) {
-    var width = srcImg.width;
-    var height = srcImg.height;
-    
-    var src = srcImg.data;
-    var dst = dstImg.data;
-   
-    // discrete Laplacian 
-    var w = [
-        0,-1,0,
-        -1,4,-1,
-        0,-1,0
-     ];
-    
-    for (var i = 0; i < height; i++) {
-        for (var j = 0; j < width; j++) {
-            var idx = (j+i*width)*4;
-       	    var r = 0, g = 0, b = 0;
-
-	    // boundary conditions
-	    if (i == 0 || i == (height-1) 
-		|| j == 0 || j == (width-1)) 
-	    {
+	var width = srcImg.width;
+	var height = srcImg.height;
+	
+	var src = srcImg.data;
+	var dst = dstImg.data;
+	
+	// discrete Laplacian 
+	var w = [
+		0,-1,0,
+		-1,4,-1,
+		0,-1,0
+	];
+	
+	for(var i = 0; i < height; i++) {
+		for (var j = 0; j < width; j++) {
+			var idx = (j+i*width)*4;
+			var r = 0, g = 0, b = 0;
+			
+			// boundary conditions
+			if (i == 0 || i == (height-1) 
+			|| j == 0 || j == (width-1)) 
+			{
 		dst[idx] = src[idx];
 		dst[idx+1] = src[idx+1];
 		dst[idx+2] = src[idx+2];
 		dst[idx+3] = 255;
-	    } else {
-	     var idx0 = (j-1 + (i-1)*width)*4;
-	     var idx1 = (j + (i-1)*width)*4;
-	     var idx2 = (j+1 + (i-1)*width)*4;
-	     var idx3 = (j-1 + i*width)*4;
-	     var idx4 = (j + i*width)*4;
-	     var idx5 = (j+1 + i*width)*4;
-	     var idx6 = (j-1 + (i+1)*width)*4;
-	     var idx7 = (j + (i+1)*width)*4;
-	     var idx8 = (j+1 + (i+1)*width)*4;
-
-	     dst[idx] = w[0]*src[idx0] + w[1]*src[idx1] + w[2]*src[idx2] +
-			w[3]*src[idx3] + w[4]*src[idx4] + w[5]*src[idx5] + 
-			w[6]*src[idx6] + w[7]*src[idx7] + w[8]*src[idx8];
-
-	     dst[idx+1] = w[0]*src[idx0+1]+w[1]*src[idx1+1]+w[2]*src[idx2+1] +
-			w[3]*src[idx3+1]+w[4]*src[idx4+1]+w[5]*src[idx5+1] + 
-			w[6]*src[idx6+1]+w[7]*src[idx7+1]+w[8]*src[idx8+1];
-	
-	     dst[idx+2] = w[0]*src[idx0+2]+w[1]*src[idx1+2]+w[2]*src[idx2+2] +
-			w[3]*src[idx3+2]+w[4]*src[idx4+2]+w[5]*src[idx5+2] + 
-			w[6]*src[idx6+2]+w[7]*src[idx7+2]+w[8]*src[idx8+2];
-
-	     dst[idx+3] = 255;
-	    }
-       }
-    }
+		}
+		else {
+			var idx0 = (j-1 + (i-1)*width)*4;
+			var idx1 = (j + (i-1)*width)*4;
+			var idx2 = (j+1 + (i-1)*width)*4;
+			var idx3 = (j-1 + i*width)*4;
+			var idx4 = (j + i*width)*4;
+			var idx5 = (j+1 + i*width)*4;
+			var idx6 = (j-1 + (i+1)*width)*4;
+			var idx7 = (j + (i+1)*width)*4;
+			var idx8 = (j+1 + (i+1)*width)*4;
+			
+			dst[idx] = w[0]*src[idx0] + w[1]*src[idx1] + w[2]*src[idx2] +
+				w[3]*src[idx3] + w[4]*src[idx4] + w[5]*src[idx5] + 
+				w[6]*src[idx6] + w[7]*src[idx7] + w[8]*src[idx8];
+			
+			dst[idx+1] = w[0]*src[idx0+1]+w[1]*src[idx1+1]+w[2]*src[idx2+1] +
+				w[3]*src[idx3+1]+w[4]*src[idx4+1]+w[5]*src[idx5+1] + 
+				w[6]*src[idx6+1]+w[7]*src[idx7+1]+w[8]*src[idx8+1];
+			
+			dst[idx+2] = w[0]*src[idx0+2]+w[1]*src[idx1+2]+w[2]*src[idx2+2] +
+				w[3]*src[idx3+2]+w[4]*src[idx4+2]+w[5]*src[idx5+2] + 
+				w[6]*src[idx6+2]+w[7]*src[idx7+2]+w[8]*src[idx8+2];
+			
+			dst[idx+3] = 255;
+			}
+		}
+	}
 }
 
 
 Point2d = function(x, y) {
-    this.x = x;
-    this.y = y;
+	this.x = x;
+	this.y = y;
 }
 
 
@@ -104,27 +106,27 @@ Point2d = function(x, y) {
 // drawn on an image
 //
 getContour = function(cntImg, cntList) {
-    /* Input:
-       cntImg: w*h*4 image with the contour obtained from binarize & Laplacian
-       Output:
-       cntList: initially empty, will be filled with the list of points
-    */
-
-    var w = cntImg.width;
-    var h = cntImg.height;
-
-    var cnt = cntImg.data;
-    var n = 0;
-
-    for (var j = 0; j < h; j++) {
-    	for (var i = 0; i < w; i++) {
-        	var idx = (j*w+i)*4;
-
-        	if (cnt[idx]==0) {
-        	cntList[n++] = new Point2d(i, j);
-        	}
-    	}
-    }
+	/* Input:
+		cntImg: w*h*4 image with the contour obtained from binarize & Laplacian
+		Output:
+		cntList: initially empty, will be filled with the list of points
+	*/
+	
+	var w = cntImg.width;
+	var h = cntImg.height;
+	
+	var cnt = cntImg.data;
+	var n = 0;
+	
+	for (var j = 0; j < h; j++) {
+		for (var i = 0; i < w; i++) {
+			var idx = (j*w+i)*4;
+			
+			if (cnt[idx]==0) {
+				cntList[n++] = new Point2d(i, j);
+			}
+		}
+	}
 }
 
 
@@ -132,16 +134,16 @@ getContour = function(cntImg, cntList) {
 // the list of points in cntList
 //
 computeDistPoint = function(x, y, cntList) {
-    var d = Number.MAX_VALUE;
-    
-    for (var i = 0; i < cntList.length; i++){
-    	p = cntList[i];
-    	var dt = (x - p.x)*(x - p.x) + (y - p.y)*(y - p.y);
-    	if (dt < d) {
-        	d = dt;
-    	}
-    }
-    return Math.sqrt(d);
+	var d = Number.MAX_VALUE;
+	
+	for (var i = 0; i < cntList.length; i++){
+		p = cntList[i];
+		var dt = (x - p.x)*(x - p.x) + (y - p.y)*(y - p.y);
+		if (dt < d) {
+			d = dt;
+		}
+	}
+	return Math.sqrt(d);
 }
 
 
@@ -187,7 +189,6 @@ ListContourPlot = function(srcImg, dstImg, height, width, distance,zerone){
 		b=b+100;
 	}
 	
-	
 	// border line is white
 	//
 	if(f>0.09 && f<0.101
@@ -208,11 +209,11 @@ ListContourPlot = function(srcImg, dstImg, height, width, distance,zerone){
 	dst[idx+3] = 255;
 }
 
-//binalizedImg: binalize(img)
-//s: Assign 1 for white and 0 for black
+// binalizedImg: binalize(img)
+// s: Assign 1 for white and 0 for black
 //
 signednd = function(binalizedImg){
-
+	
 	var src = binalizedImg.data;
 	var height = binalizedImg.height;
 	var width = binalizedImg.width;
@@ -222,13 +223,13 @@ signednd = function(binalizedImg){
 		s[i] = new Array(width);
 		for(var j = 0; j < height ;j++){
 			var idx = (j + i*width)*4;
-         	
-            if(src[idx]==255){
-            	s[i][j]=1;
-            }
-            else{
-            	s[i][j] = 0;
-            }
+			
+			if(src[idx]==255){
+				s[i][j]=1;
+			}
+			else{
+				s[i][j] = 0;
+			}
 		}
 	}
 	return s;
