@@ -49,7 +49,10 @@ onload = function(){
 		for(var x = 0 ; x < height ; x++){
 			d[x] = new Array(width);
 			for(var y = 0 ; y < width ; y++){
-				d[x][y] = computeDistPoint(y,x,NFList);
+			
+			//new
+			//
+				d[x][y] = computeDistPoint(y,x,NFList)*computeSignPoint(y,x,binImg);
 				if(dmax < d[x][y]){
 					dmax = d[x][y];
 				}
@@ -59,19 +62,13 @@ onload = function(){
 			}
 		}
 		
-		//inside: sign = 1
-		//outside: sign = 0
-		//binImg: binalizedImg
-		//
-		var sign = signednd(binImg);
-		
 		// nd is normalized distance
 		//
 		var nd;
 		for(var i = 0; i < height; i++){
 			for(var j = 0; j < width; j++){
 				nd = (d[i][j]-dmin)/(dmax-dmin);
-				ListContourPlot(dntImg,entImg,i,j,nd,sign[i][j]);
+				ListContourPlot(dntImg,entImg,i,j,nd);
 			}
 		}
 		console.log("fin");

@@ -154,7 +154,7 @@ computeDistPoint = function(x, y, cntList) {
 // distance: normalized distance
 // zerone: point on inside(=1) or outside(=0)
 //
-ListContourPlot = function(srcImg, dstImg, height, width, distance,zerone){
+ListContourPlot = function(srcImg, dstImg, height, width, distance){
 	var src = srcImg.data;
 	var dst = dstImg.data;
 	
@@ -162,7 +162,7 @@ ListContourPlot = function(srcImg, dstImg, height, width, distance,zerone){
 	var y = width;
 	var f = distance;
 	var w = srcImg.width;
-	var sign = zerone;
+	// var sign = zerone;
 	
 	var idx = (x*w + y)*4;
 	var r = 0;
@@ -172,7 +172,7 @@ ListContourPlot = function(srcImg, dstImg, height, width, distance,zerone){
 	// color map
 	//
 	
-	if(f<0.10){r=2; g=95; b=97;}
+	if(f>=0.0 && f<0.10){r=2; g=95; b=97;}
 	if(f>0.10 && f<0.20){r=25; g=109; b=93;}
 	if(f>0.20 && f<0.30){r=47; g=124; b=89;}
 	if(f>0.30 && f<0.40){r=71; g=138; b=85;}
@@ -181,13 +181,6 @@ ListContourPlot = function(srcImg, dstImg, height, width, distance,zerone){
 	if(f>0.60 && f<0.70){r=140; g=182; b=72;}
 	if(f>0.70 && f<0.80){r=163; g=196; b=68;}
 	if(f>0.80){r=186; g=211; b=64;}
-	
-	
-	//inside the shape
-	//
-	if(sign == 1) {
-		b=b+100;
-	}
 	
 	// border line is white
 	//
@@ -202,7 +195,6 @@ ListContourPlot = function(srcImg, dstImg, height, width, distance,zerone){
 		r=255; g=255; b=255;
 	}
 	
-	
 	dst[idx] = Math.floor(r);
 	dst[idx+1] = Math.floor(g);
 	dst[idx+2] = Math.floor(b);
@@ -210,27 +202,21 @@ ListContourPlot = function(srcImg, dstImg, height, width, distance,zerone){
 }
 
 // binalizedImg: binalize(img)
-// s: Assign 1 for white and 0 for black
+// s: Assign -1 for white and 1 for black
 //
-signednd = function(binalizedImg){
+computeSignPoint = function(x, y, binalizedImg){
 	
 	var src = binalizedImg.data;
-	var height = binalizedImg.height;
 	var width = binalizedImg.width;
-	var s = new Array(height);
+	var sign = 0;
 	
-	for(var i = 0; i < height ;i++){
-		s[i] = new Array(width);
-		for(var j = 0; j < height ;j++){
-			var idx = (j + i*width)*4;
-			
-			if(src[idx]==255){
-				s[i][j]=1;
-			}
-			else{
-				s[i][j] = 0;
-			}
-		}
+	var idx = (y*width + x)*4;
+	
+	if(src[idx]==255){
+		sign = -1;
 	}
-	return s;
+	else {
+		sign = 1;
+	}
+	return sign;
 }
