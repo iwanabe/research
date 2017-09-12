@@ -152,7 +152,6 @@ computeDistPoint = function(x, y, cntList) {
 // srcImg: w*h*4 image with the contour obtained from binarize & Laplacian
 // dstImg: out put image
 // distance: normalized distance
-// zerone: point on inside(=1) or outside(=0)
 //
 ListContourPlot = function(srcImg, dstImg, height, width, distance){
 	var src = srcImg.data;
