@@ -38,15 +38,24 @@ img.onload = function(e){
 	
 	getContour(dntImg,NFList);
 }
-	
+
 model.eval = function(x, y, z) {
 //   var value = 25 - (x*x + y*y + z*z);
 //    return value;
 	
-	var signeddistance = computeDistPoint(x,y,NFList)*computeSignPoint(x,y,binImg);
-	var v = Math.min(signeddistance,z);
-	var value = Math.min(v,zmax-z);
-
+	var signeddistance1 = computeDistPoint(x,y,NFList)*computeSignPoint(x,y,binImg);
+	var v1 = Math.min(signeddistance1,z);
+	var value1 = Math.min(v1,zmax-z);
+	
+	var signeddistance2 = computeDistPoint(z,y,NFList)*computeSignPoint(z,y,binImg);
+	var v2 = Math.min(signeddistance2,x);
+	var value2 = Math.min(v2,width-x);
+	
+	var signeddistance3 = computeDistPoint(z,x,NFList)*computeSignPoint(z,x,binImg);
+	var v3 = Math.min(signeddistance3,y);
+	var value3 = Math.min(v3,height-y);
+	
+	var value = Math.min(value1,value2,value3);
 	return value;
 }
 
