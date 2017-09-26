@@ -18,7 +18,7 @@ binarize = function(srcImg, dstImg){
 			var a = src[idx+3];
 			
 			var avg = (r + g + b)/3;
-			if(avg < 128){ 
+			if(avg < 128){
 				dst[idx] = 255;
 				dst[idx+1] = 255;
 				dst[idx+2] = 255;
@@ -120,6 +120,7 @@ getContour = function(cntImg, cntList) {
 	
 	for (var j = 0; j < h; j++) {
 		for (var i = 0; i < w; i++) {
+		
 			var idx = (j*w+i)*4;
 			
 			if (cnt[idx]==0) {
@@ -146,6 +147,44 @@ computeDistPoint = function(x, y, cntList) {
 	return Math.sqrt(d);
 }
 
+// binalizedImg: binalize(img)
+// sign: Assign -1 for white and 1 for black
+//
+//computeSignPoint = function(x, y, binalizedImg)
+//	
+//	var src = binalizedImg.data;
+//	var width = binalizedImg.width;
+//	var height = binalizedImg.height;
+computeSignPoint = function(x, y, binImg){
+	
+	var src = binImg.data;
+	var width = binImg.width;
+	var height = binImg.height;
+	var sign = 0;
+	
+	
+	if(x >= 0 && x < width && y >= 0 && y < height){
+		x = Math.floor(x);
+		y = Math.floor(y);
+	
+		var idx = (y*width + x)*4;
+		var r = src[idx];
+		var g = src[idx+1];
+		var b = src[idx+2];
+		var a = src[idx+3];
+	
+		var avg = (r + g + b)/3;
+		if(avg > 128){
+			sign = 1;
+		}
+		else {
+			sign = -1;
+		}
+	}
+	else sign = -1;
+	
+	return sign;
+}
 
 // Change the color according to the distance from the contour
 // input:
@@ -161,7 +200,6 @@ ListContourPlot = function(srcImg, dstImg, height, width, distance){
 	var y = width;
 	var f = distance;
 	var w = srcImg.width;
-	// var sign = zerone;
 	
 	var idx = (x*w + y)*4;
 	var r = 0;
@@ -171,51 +209,44 @@ ListContourPlot = function(srcImg, dstImg, height, width, distance){
 	// color map
 	//
 	
-	if(f>=0.0 && f<0.10){r=2; g=95; b=97;}
+	if(f>0.0 && f<0.10){r=2; g=95; b=97;}
+	//{r=0, g=255, b=255;}
+	//
 	if(f>0.10 && f<0.20){r=25; g=109; b=93;}
 	if(f>0.20 && f<0.30){r=47; g=124; b=89;}
+	//{r=163, g=255, b=255;}
+	//
 	if(f>0.30 && f<0.40){r=71; g=138; b=85;}
 	if(f>0.40 && f<0.50){r=94; g=153; b=81;}
+	//{r=117, g=255, b=255;}
+	//
 	if(f>0.50 && f<0.60){r=117; g=167; b=76;}
 	if(f>0.60 && f<0.70){r=140; g=182; b=72;}
+	//{r=71, g=255, b=255;}
+	//
 	if(f>0.70 && f<0.80){r=163; g=196; b=68;}
 	if(f>0.80){r=186; g=211; b=64;}
+	//{r=25, g=255, b=255;}
+	//
 	
 	// border line is white
 	//
-	if(f>0.09 && f<0.101
-	||f>0.19 && f<0.201
-	||f>0.29 && f<0.301
-	||f>0.39 && f<0.401
-	||f>0.49 && f<0.501
-	||f>0.59 && f<0.601
-	||f>0.69 && f<0.701
-	||f>0.79 && f<0.801){
-		r=255; g=255; b=255;
+	if(
+		f>0.09 && f<0.101
+		||f>0.19 && f<0.201
+		||f>0.29 && f<0.301
+		||f>0.39 && f<0.401
+		||f>0.49 && f<0.501
+		||f>0.59 && f<0.601
+		||f>0.69 && f<0.701
+		||f>0.79 && f<0.801
+		||f>0.89 && f<0.901){
+		r=100; g=0; b=0;
 	}
-	
 	dst[idx] = Math.floor(r);
 	dst[idx+1] = Math.floor(g);
 	dst[idx+2] = Math.floor(b);
 	dst[idx+3] = 255;
 }
 
-// binalizedImg: binalize(img)
-// s: Assign -1 for white and 1 for black
-//
-computeSignPoint = function(x, y, binalizedImg){
-	
-	var src = binalizedImg.data;
-	var width = binalizedImg.width;
-	var sign = 0;
-	
-	var idx = (y*width + x)*4;
-	
-	if(src[idx]==255){
-		sign = -1;
-	}
-	else {
-		sign = 1;
-	}
-	return sign;
-}
+
