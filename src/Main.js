@@ -79,45 +79,46 @@ function init() {
 
 
     // lights
-    // One light at each of the corners of the bounding box
-    var light1 = new THREE.PointLight(0xffffff);
-    light1.position.set(0,y_max,0);
+    var light1 = new THREE.DirectionalLight(0xffffff);
+    light1.position.set(0,1,0);
     scene.add(light1);
 
-    var light2 = new THREE.PointLight(0xffffff);
-    light2.position.set(x_max,0,0);
+    var light2 = new THREE.DirectionalLight(0xffffff);
+    light2.position.set(1,0,0);
     scene.add(light2);
 
-    var light3 = new THREE.PointLight(0xffffff);
-    light3.position.set(0,0,z_max);
+    var light3 = new THREE.DirectionalLight(0xffffff);
+    light3.position.set(0,0,1);
     scene.add(light3);
 
-    var light4 = new THREE.PointLight(0xffffff);
-    light4.position.set(0,y_min,0);
+    var light4 = new THREE.DirectionalLight(0xffffff);
+    light4.position.set(0,-1,0);
     scene.add(light4);
 
-    var light5 = new THREE.PointLight(0xffffff);
-    light5.position.set(x_min,0,0);
+    var light5 = new THREE.DirectionalLight(0xffffff);
+    light5.position.set(-1,0,0);
     scene.add(light5);
 
-    var light6 = new THREE.PointLight(0xffffff);
-    light6.position.set(0,0,z_min);
+    var light6 = new THREE.DirectionalLight(0xffffff);
+    light6.position.set(0,0,-1);
     scene.add(light6);
         
-    scene.add( new THREE.AxisHelper(100) );
+    //scene.add( new THREE.AxisHelper(100) );
 
 
     // Add the polygonized implicit to the scene
     var mesh = MC.polygonize(model, grid_resolution);
+    mesh.rotateY(Math.PI);
+    mesh.rotateZ(-Math.PI);
+    mesh.translateX(-x_range/2.0);
+    mesh.translateY(-y_range/2.0);
+    mesh.translateZ(-z_range/2.0);
     scene.add(mesh);
 
 
     // add a grid to help position each object
-    var grid = new THREE.GridHelper(500, 25);
-    scene.add(grid);
-
-
-   //CreateTest();
+    //var grid = new THREE.GridHelper(500, 25);
+    //scene.add(grid);
 
 }
 

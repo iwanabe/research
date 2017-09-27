@@ -18,7 +18,7 @@ img.onload = function(e){
 	
 	if(width>=height){zmax = width;}
 	if(height>width){zmax = height;}
-			
+	
 	var canvas = document.getElementById('mycanvas');
 	var context = canvas.getContext('2d');
 	
@@ -40,9 +40,7 @@ img.onload = function(e){
 }
 
 model.eval = function(x, y, z) {
-//   var value = 25 - (x*x + y*y + z*z);
-//    return value;
-	
+
 	var signeddistance1 = computeDistPoint(x,y,NFList)*computeSignPoint(x,y,binImg);
 	var v1 = Math.min(signeddistance1,z);
 	var value1 = Math.min(v1,zmax-z);
@@ -56,19 +54,19 @@ model.eval = function(x, y, z) {
 	var value3 = Math.min(v3,height-y);
 	
 	var value = Math.min(value1,value2,value3);
-	return value;
+	
+	// Returning value1 corresponds to the extruded Kanji along Z
+	return value1;
+	
+	// Returning min(value1, value2, value3) corresponds to the 3D Kanji
+	//return value;
 }
 
 model.boundingBox = function() {
 
-//	var bbox = {x_min: -10, x_max: 10, 
-//		y_min: -10, y_max: 10,
-//		z_min: -10, z_max: 10}
-
-
-	var bbox = {x_min: 0, x_max: width-1, 
-				y_min: 0, y_max: height-1,
-				z_min: 0, z_max: zmax-1}
+	var bbox = {x_min: -5, x_max: width+5, 
+		    y_min: -5, y_max: height+5,
+		    z_min: -5, z_max: zmax+5}
 				
 	return bbox;
 }
