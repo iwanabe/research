@@ -1,20 +1,46 @@
 // standard global variables
 var container, scene, camera, renderer, controls, stats;
 
-
 window.onload = main;
 
+//new
+//
+var dataUrl;
 
 // The main function: init everything and animate everything
 function main() {
-    init();
-    animate();
+
+	//new
+	//
+	var objfile = document.getElementById("selfile");
+	objfile.addEventListener("change", function(evt) {
+		dataUrl = URL.createObjectURL(objfile.files[0]);
+		AllProcessing();
+	},false);
+}
+
+//new
+//
+AllProcessing = function(){
+	var canvas = document.getElementById('mycanvas');
+	if(canvas.getContext){
+		var context = canvas.getContext('2d');
+		var img = new Image();
+		img.src = dataUrl;
+		img.addEventListener('load',function(){
+			LoadImageAndGetContour(img); //model.js
+			console.log("please wait");
+			init();
+			animate();
+		},false);
+	}
 }
 
 
-// The grid resolution: res * res * res
-var grid_resolution = 64;
 
+
+// The grid resolution: res * res * res
+var grid_resolution = 128;
 
 // Init a regular grid, sample the model,
 // Generate a mesh using the Marching Cubes algorithm 

@@ -9,8 +9,8 @@ binarize = function(srcImg, dstImg){
 	var src = srcImg.data;
 	var dst = dstImg.data;
 	
-	for(var i = 0; i < height; ++i){
-		for(var j = 0; j < width; ++j){
+	for(var i = 0; i < height; i=(i+1)|0){//++i
+		for(var j = 0; j < width; j=(j+1)|0){//++j
 			var idx = (j + i*width)*4;
 			var r = src[idx];
 			var g = src[idx+1];
@@ -52,8 +52,8 @@ Laplacian = function(srcImg, dstImg) {
 		0,-1,0
 	];
 	
-	for(var i = 0; i < height; i++) {
-		for (var j = 0; j < width; j++) {
+	for(var i = 0; i < height; i=(i+1)|0) {
+		for (var j = 0; j < width; j=(j+1)|0) {
 			var idx = (j+i*width)*4;
 			var r = 0, g = 0, b = 0;
 			
@@ -118,13 +118,14 @@ getContour = function(cntImg, cntList) {
 	var cnt = cntImg.data;
 	var n = 0;
 	
-	for (var j = 0; j < h; j++) {
-		for (var i = 0; i < w; i++) {
+	for (var j = 0; j < h; j=(j+1)|0) {
+		for (var i = 0; i < w; i=(i+1)|0) {
 		
 			var idx = (j*w+i)*4;
 			
 			if (cnt[idx]==0) {
-				cntList[n++] = new Point2d(i, j);
+				cntList[n] = new Point2d(i, j);
+				n=(n+1)|0;
 			}
 		}
 	}
@@ -135,16 +136,28 @@ getContour = function(cntImg, cntList) {
 // the list of points in cntList
 //
 computeDistPoint = function(x, y, cntList) {
-	var d = Number.MAX_VALUE;
-	
-	for (var i = 0; i < cntList.length; i++){
-		p = cntList[i];
-		var dt = (x - p.x)*(x - p.x) + (y - p.y)*(y - p.y);
-		if (dt < d) {
-			d = dt;
+
+	//new
+	//
+	if(x >= 0 && x < width && y >= 0 && y < height){
+		x = x|0;
+		y = y|0;
+		
+		var d = Number.MAX_VALUE;
+		
+		for (var i = 0; i < cntList.length; i=(i+1)|0){
+			p = cntList[i];
+			var dt = (x - p.x)*(x - p.x) + (y - p.y)*(y - p.y);
+			if (dt < d) {
+				d = dt;
+			}
+			//new
+			//
+			if(d==0)break;
 		}
+		return Math.sqrt(d);
 	}
-	return Math.sqrt(d);
+	else return zmax;
 }
 
 // binalizedImg: binalize(img)
@@ -162,19 +175,14 @@ computeSignPoint = function(x, y, binImg){
 	var height = binImg.height;
 	var sign = 0;
 	
-	
 	if(x >= 0 && x < width && y >= 0 && y < height){
-		x = Math.floor(x);
-		y = Math.floor(y);
-	
+		x = x|0;
+		y = y|0;
+		
 		var idx = (y*width + x)*4;
-		var r = src[idx];
-		var g = src[idx+1];
-		var b = src[idx+2];
-		var a = src[idx+3];
-	
-		var avg = (r + g + b)/3;
-		if(avg > 128){
+		
+		//white
+		if(src[idx]==255){
 			sign = 1;
 		}
 		else {
@@ -208,26 +216,15 @@ ListContourPlot = function(srcImg, dstImg, height, width, distance){
 	
 	// color map
 	//
-	
-	if(f>0.0 && f<0.10){r=2; g=95; b=97;}
-	//{r=0, g=255, b=255;}
-	//
+	if(f>0.0 && f<0.10){r=2; g=95; b=97;}	
 	if(f>0.10 && f<0.20){r=25; g=109; b=93;}
 	if(f>0.20 && f<0.30){r=47; g=124; b=89;}
-	//{r=163, g=255, b=255;}
-	//
 	if(f>0.30 && f<0.40){r=71; g=138; b=85;}
 	if(f>0.40 && f<0.50){r=94; g=153; b=81;}
-	//{r=117, g=255, b=255;}
-	//
 	if(f>0.50 && f<0.60){r=117; g=167; b=76;}
 	if(f>0.60 && f<0.70){r=140; g=182; b=72;}
-	//{r=71, g=255, b=255;}
-	//
 	if(f>0.70 && f<0.80){r=163; g=196; b=68;}
 	if(f>0.80){r=186; g=211; b=64;}
-	//{r=25, g=255, b=255;}
-	//
 	
 	// border line is white
 	//
@@ -241,11 +238,11 @@ ListContourPlot = function(srcImg, dstImg, height, width, distance){
 		||f>0.69 && f<0.701
 		||f>0.79 && f<0.801
 		||f>0.89 && f<0.901){
-		r=100; g=0; b=0;
+		r=0; g=0; b=0;
 	}
-	dst[idx] = Math.floor(r);
-	dst[idx+1] = Math.floor(g);
-	dst[idx+2] = Math.floor(b);
+	dst[idx] = r|0;
+	dst[idx+1] = g|0;
+	dst[idx+2] = b|0;
 	dst[idx+3] = 255;
 }
 

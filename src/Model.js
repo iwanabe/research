@@ -4,15 +4,14 @@
 // - its bounding-box
 var model = {};
 
-var img = new Image();
-img.src = "image/Samurai-kanji.jpg";
+
 var binImg;
-var NFList = [];
+var NFList =[];
 var width;
 var height;
 var zmax;
 
-img.onload = function(e){
+LoadImageAndGetContour = function(img){
 	width = img.width;
 	height = img.height;
 	
@@ -39,6 +38,7 @@ img.onload = function(e){
 	getContour(dntImg,NFList);
 }
 
+
 model.eval = function(x, y, z) {
 
 	var signeddistance1 = computeDistPoint(x,y,NFList)*computeSignPoint(x,y,binImg);
@@ -56,17 +56,17 @@ model.eval = function(x, y, z) {
 	var value = Math.min(value1,value2,value3);
 	
 	// Returning value1 corresponds to the extruded Kanji along Z
-	return value1;
+	//return value1;
 	
 	// Returning min(value1, value2, value3) corresponds to the 3D Kanji
-	//return value;
+	return value;
 }
 
 model.boundingBox = function() {
 
 	var bbox = {x_min: -5, x_max: width+5, 
-		    y_min: -5, y_max: height+5,
-		    z_min: -5, z_max: zmax+5}
+			y_min: -5, y_max: height+5,
+			z_min: -5, z_max: zmax+5}
 				
 	return bbox;
 }
