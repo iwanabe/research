@@ -11,6 +11,8 @@ var width;
 var height;
 var zmax;
 
+//
+//get contour from loaded image
 LoadImageAndGetContour = function(img){
 	width = img.width;
 	height = img.height;

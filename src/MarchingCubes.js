@@ -205,6 +205,7 @@ MC.polygonize = function(model, grid_resolution) {
 	 side: THREE.FrontSide,
 	 shading: THREE.SmoothShading,
 	 wireframe: false} );
+	
     var mesh = new THREE.Mesh( geometry, colorMaterial );
     
     return mesh;
