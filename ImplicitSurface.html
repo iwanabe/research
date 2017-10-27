@@ -21,13 +21,17 @@
 		<link rel=stylesheet href="css/info.css"/>
 		<script src="lib/info.js"></script>
 		
+		<script src="lib/dat.gui.js"> </script>
+		<script src="lib/STLExporter.js"> </script>
+		<script src="lib/FileSaver.js"> </script>
+		
 		<div id="ThreeJS" style="position: absolute; left:0px; top:0px"></div>
 		
 		<!-- All the action is here -->
 		
 		<p>Please input the image of kanji</p>
 		<input type="file" id="selfile">
-		<p>Please input the image of kanji</p>
+		<p>Create 3D kanji Model</p>
 		
 		<canvas id="mycanvas"></canvas>
 		<script src="src/ImageProcessing.js"> </script>
@@ -35,7 +39,6 @@
 		<script src="src/MarchingCubes.js"></script> 
 		<script src="src/MarchingCubesData.js"></script>
 		<script src="src/Main.js"> </script>
-		<script src="src/STLExporter.js"> </script>
-		<script src="src/FileSaver.js"> </script>
+		
 	</body>
 </html>
