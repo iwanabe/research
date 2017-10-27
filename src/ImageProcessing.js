@@ -138,10 +138,10 @@ getContour = function(cntImg, cntList) {
 computeDistPoint = function(x, y, cntList) {
 
 	//new
-	//
-	if(x >= 0 && x < width && y >= 0 && y < height){
-		x = x|0;
-		y = y|0;
+	//under improving
+	//if(x >= 0 && x < width && y >= 0 && y < height){
+		//x = x|0;
+		//y = y|0;
 		
 		var d = Number.MAX_VALUE;
 		
@@ -156,8 +156,8 @@ computeDistPoint = function(x, y, cntList) {
 			if(d==0)break;
 		}
 		return Math.sqrt(d);
-	}
-	else return zmax;
+	//}
+	//else return zmax;
 }
 
 // binalizedImg: binalize(img)
@@ -216,7 +216,7 @@ ListContourPlot = function(srcImg, dstImg, height, width, distance){
 	
 	// color map
 	//
-	if(f>0.0 && f<0.10){r=2; g=95; b=97;}	
+	if(f>0.0 && f<0.10){r=2; g=95; b=97;}
 	if(f>0.10 && f<0.20){r=25; g=109; b=93;}
 	if(f>0.20 && f<0.30){r=47; g=124; b=89;}
 	if(f>0.30 && f<0.40){r=71; g=138; b=85;}

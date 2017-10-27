@@ -1,6 +1,9 @@
 // standard global variables
 var container, scene, camera, renderer, controls, stats;
 
+//new
+var gui;
+
 window.onload = main;
 
 //new
@@ -36,8 +39,6 @@ AllProcessing = function(){
 		},false);
 	}
 }
-
-
 
 
 // The grid resolution: res * res * res
@@ -97,6 +98,7 @@ function init() {
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
 	
 	
+	
 	// STATS
 	stats = new Stats();
 	stats.domElement.style.position = 'absolute';
@@ -141,45 +143,40 @@ function init() {
 	mesh.translateY(-y_range/2.0);
 	mesh.translateZ(-z_range/2.0);
 	
-	//
-	//new
-	//CASE1:smooth
-	mesh.geometry.mergeVertices();
-	mesh.geometry.computeVertexNormals();
-	//
-	
 	scene.add(mesh);
-	
 	
 	//
 	//new
 	//use FileSaver.js STLExporter.js
 	//save as stl file
 	var filename = '3dkanjimodel';
-	saveSTL(scene,filename);
-	//
-	//
+
+	var menu2 = new function(){
+		this.download = function(){
+			saveSTL(scene,filename);
+		};
+	}
+	gui.add(menu2,'download');
 	
 	// add a grid to help position each object
 	//var grid = new THREE.GridHelper(500, 25);
 	//scene.add(grid);
-
 }
 
 function animate() 
 {
 	requestAnimationFrame( animate );
-	render();		
+	render();
 	update();
 }
 
 function update()
-{
+{	
 	controls.update();
 	stats.update();
 }
 
-function render() 
+function render()
 {
 	renderer.render( scene, camera );
 }
