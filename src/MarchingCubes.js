@@ -198,18 +198,16 @@ MC.polygonize = function(model, grid_resolution) {
     }
     
     
-    //
-	//new
+
 	//CASE1:smooth
 	geometry.mergeVertices();
-	
     geometry.computeFaceNormals();
     geometry.computeVertexNormals();
 	
     var colorMaterial =  new THREE.MeshPhongMaterial( //THREE.MeshLambertMaterial( 
 	{color: 0x7f7f7f, 
 	 side: THREE.FrontSide,
-	 shading: THREE.SmoothShading,
+	 flatShading: false,
 	 wireframe: false} );
 	
     var mesh = new THREE.Mesh( geometry, colorMaterial );
@@ -220,28 +218,29 @@ MC.polygonize = function(model, grid_resolution) {
 	var menu = new function(){
 		this.color = colorMaterial.color.getStyle();
 		this.wireframe = colorMaterial.wireframe;
-		this.shading = "smooth";
+		//this.shading = "smooth";
 	}
 	//
 	//gui is defined global variable in Main.js
 	gui = new dat.GUI();
+	
 	gui.addColor(menu, 'color').onChange(function(e){
 		colorMaterial.color.setStyle(e)
 	});
 	gui.add(menu, 'wireframe').onChange(function (e) {
 		colorMaterial.wireframe = e
 	});
-	gui.add(menu, 'shading', ["flat","smooth"]).onChange(function(e){
-		switch(e){
-			case "flat":
-				colorMaterial.shading = THREE.FlatShading;
-				break;
-			case "smooth":
-				colorMaterial.shading = THREE.SmoothShading;
-				break;
-		}
-		colorMaterial.needsUpdate = true;
-	});
+//	gui.add(menu, 'shading', ["flat","smooth"]).onChange(function(e){
+//		switch(e){
+//			case "flat":
+//				colorMaterial.shading = THREE.FlatShading;
+//				break;
+//			case "smooth":
+//				colorMaterial.shading = THREE.SmoothShading;
+//				break;
+//		}
+//		colorMaterial.needsUpdate = true;
+//	});
 	
     return mesh;
 }

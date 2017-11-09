@@ -1,14 +1,17 @@
 // standard global variables
 var container, scene, camera, renderer, controls, stats;
 
-//new
+var dataUrl;
 var gui;
 
-window.onload = main;
+let meanCurvatureFlow = undefined;
+let modifiedMeanCurvatureFlow = undefined;
+let h = 0.002;
+let threeMesh = undefined;
+let memoryManager = new EmscriptenMemoryManager();
+let showWireframe = false;
 
-//new
-//
-var dataUrl;
+window.onload = main;
 
 // The main function: init everything and animate everything
 function main() {
@@ -36,6 +39,10 @@ AllProcessing = function(){
 			init();
 			animate();
 			console.timeEnd('process time: ');
+//			ConvertStlToObj();
+
+			//for using geometry-flow
+			exportToObj();
 		},false);
 	}
 }
@@ -62,8 +69,6 @@ function init() {
 	var y_range = y_max - y_min;
 	var z_range = z_max - z_min;
 	
-	
-	
 	// SCENE
 	scene = new THREE.Scene();
 	
@@ -77,7 +82,6 @@ function init() {
 			z_max + 0.5*z_range);
 	camera.lookAt(scene.position);	
 	
-	
 	// RENDERER
 	if (Detector.webgl) {
 	renderer = new THREE.WebGLRenderer({antialias:true});
@@ -85,19 +89,17 @@ function init() {
 	renderer = new THREE.CanvasRenderer(); 
 	}
 	renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-	renderer.setClearColor(0xffffff);
+	renderer.setClearColor(0x000000,1.0)//(0xffffff);
 	container = document.getElementById('ThreeJS');
 	container.appendChild(renderer.domElement);
-	
 	
 	// EVENTS
 	THREEx.WindowResize(renderer, camera);
 	
-	
 	// CONTROLS
-	controls = new THREE.OrbitControls( camera, renderer.domElement );
-	
-	
+	//controls = new THREE.OrbitControls( camera, renderer.domElement );
+	controls = new THREE.TrackballControls(camera, renderer.domElement);
+	controls.rotateSpeed = 5.0;
 	
 	// STATS
 	stats = new Stats();
@@ -105,7 +107,6 @@ function init() {
 	stats.domElement.style.bottom = '0px';
 	stats.domElement.style.zIndex = 100;
 	container.appendChild(stats.domElement);
-	
 	
 	// lights
 	var light1 = new THREE.DirectionalLight(0xffffff);
@@ -134,29 +135,50 @@ function init() {
 	
 	//scene.add( new THREE.AxisHelper(100) );
 	
-	
 	// Add the polygonized implicit to the scene
-	var mesh = MC.polygonize(model, grid_resolution);
-	mesh.rotateY(Math.PI);
-	mesh.rotateZ(-Math.PI);
-	mesh.translateX(-x_range/2.0);
-	mesh.translateY(-y_range/2.0);
-	mesh.translateZ(-z_range/2.0);
+//	var mesh = MC.polygonize(model, grid_resolution);
+//	mesh.rotateY(Math.PI);
+//	mesh.rotateZ(-Math.PI);
+//	mesh.translateX(-x_range/2.0);
+//	mesh.translateY(-y_range/2.0);
+//	mesh.translateZ(-z_range/2.0);
 	
-	scene.add(mesh);
-	
-	//
-	//new
-	//use FileSaver.js STLExporter.js
-	//save as stl file
-	var filename = '3dkanjimodel';
+//	scene.add(mesh);
 
+	//Name is changed mesh to threeMesh
+	threeMesh = MC.polygonize(model, grid_resolution);
+	threeMesh.rotateY(Math.PI);
+	threeMesh.rotateZ(-Math.PI);
+	threeMesh.translateX(-x_range/2.0);
+	threeMesh.translateY(-y_range/2.0);
+	threeMesh.translateZ(-z_range/2.0);
+	
+	scene.add(threeMesh);
+
+	//save as stl or obj file
+	//use FileSaver.js STLExporter.js
+	var filename = '3dkanjimodel';
 	var menu2 = new function(){
-		this.download = function(){
+		this.stldownload = function(){
 			saveSTL(scene,filename);
 		};
+		this.objdownload = function(){
+			var exporter = new THREE.OBJExporter();
+			var objString = exporter.parse( scene );
+			var blob = new Blob([objString], {type: 'text/plain'});
+			saveAs(blob, filename + '.obj');
+		};
+		//
+		//smoothing when push button
+		this.integrate = function(){
+			meanCurvatureFlow.integrate(h);
+			memoryManager.deleteExcept([modifiedMeanCurvatureFlow.A]);
+			updateMesh();
+		};
 	}
-	gui.add(menu2,'download');
+	gui.add(menu2,'stldownload');
+	gui.add(menu2,'objdownload');
+	gui.add(menu2,'integrate');
 	
 	// add a grid to help position each object
 	//var grid = new THREE.GridHelper(500, 25);
