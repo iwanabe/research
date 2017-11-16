@@ -171,12 +171,12 @@ function init() {
 //		this.stldownload = function(){
 //			saveSTL(scene,filename);
 //		};
-		this.objdownload = function(){
-			var exporter = new THREE.OBJExporter();
-			var objString = exporter.parse( scene );
-			var blob = new Blob([objString], {type: 'text/plain'});
-			saveAs(blob, filename + '.obj');
-		};
+//		this.objdownload = function(){
+//			var exporter = new THREE.OBJExporter();
+//			var objString = exporter.parse( scene );
+//			var blob = new Blob([objString], {type: 'text/plain'});
+//			saveAs(blob, filename + '.obj');
+//		};
 		this.ExportSTL = function(){
 			var objString = MeshIO.writeSTL({
 				"v": positions,
@@ -206,7 +206,7 @@ function init() {
 		this.wireframe = showWireframe;
 	}
 //	gui.add(menu,'stldownload');
-	gui.add(menu,'objdownload');
+//	gui.add(menu,'objdownload');
 	gui.add(menu,'ExportSTL');
 	gui.add(menu,'ExportOBJ');
 	gui.add(menu,'timeStep',0.001,0.1).step(0.001).onChange(updateTimeStep).listen();
