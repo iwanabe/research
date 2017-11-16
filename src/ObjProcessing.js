@@ -1,16 +1,9 @@
 
 function exportToObj(){
-	var exporter = new THREE.OBJExporter();
+	var exporter = new THREE.OBJExporterGeometry();
 	var objString = exporter.parse(scene);
 	
-	//console.log(objString);
-	//initMesh(samurai);
 	initMesh(objString);
-	
-}
-
-function ConvertStlToObj(){
-
 }
 
 //
@@ -20,6 +13,15 @@ function ConvertStlToObj(){
 let mesh = undefined;
 const ORANGE = new Vector(1.0, 0.5, 0.0);
 let geometry = undefined;
+
+let threeGeometry = undefined;
+let wireframe = undefined;
+let positions = undefined;
+let uvs = undefined;
+let normals = undefined;
+let colors = undefined;
+let indices = undefined;
+
 
 function initMesh(text) {
 	let polygonSoup = MeshIO.readOBJ(text);
@@ -43,7 +45,7 @@ function initMesh(text) {
 		// update metadata
 //		let element = document.getElementById("meta");
 //		element.textContent = "";
-
+		
 		} else {
 			alert("Unable to build halfedge mesh");
 		}
