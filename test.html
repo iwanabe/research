@@ -1,11 +1,16 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <title>Implicit surface meshing</title>
-  </head>
-  <body>
-     <canvas id="mycanvas" width="558" height="619" ></canvas>
-     <script src="src/onload.js"> </script>
-     <script src="src/ImageProcessing.js"> </script>
-  </body>
+<html lang="JP">
+	<head>
+		<title>Implicit surface meshing</title>
+	</head>
+	<body>
+		<p>Please input the image of kanji</p>
+		<input type="file" id="selfile">
+		<p>Plot Contour</p>
+		<canvas id="mycanvas"></canvas> 
+		
+		<script src="src/onload.js"> </script>
+		<script src="src/ImageProcessing.js"> </script> 
+		<script src="lib/opencv.js"> </script>
+	</body>
 </html>

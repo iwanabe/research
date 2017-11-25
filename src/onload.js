@@ -4,10 +4,21 @@ onload = function(){
 		return false;
 	}
 	
-	var img = new Image();
-	img.src = "image/Samurai-kanji.jpg";
+	var dataUrl;
+	var objfile = document.getElementById("selfile");
+	objfile.addEventListener("change", function(evt) {
+		dataUrl = URL.createObjectURL(objfile.files[0]);
+		console.log("start");
+		console.time('process time: ');
+		var img = new Image();
+		img.src = dataUrl;
+		img.addEventListener('load',function(){
+		
+		
+	//var img = new Image();
+	//img.src = "image/Samurai-kanji.jpg";
 	
-	img.onload = function(e){
+	//img.onload = function(e){
 		var width = img.width;
 		var height = img.height;
 		
@@ -29,8 +40,6 @@ onload = function(){
 		Laplacian(binImg, cntImg);
 		binarize(cntImg, dntImg);
 		
-		console.log("start wait plese");
-		
 		
 		/*
 		Calculate the shortest distance to the contour and put it in d[][].
@@ -38,10 +47,9 @@ onload = function(){
 		Then call the function and color it.
 		*/
 		
-		var d = new Array(height);
+		d = new Array(height);
 		var dmin = 10000;
 		var dmax = 0;
-		//var NFList = new Point2d();
 		var NFList = [];
 		
 		getContour(dntImg,NFList);
@@ -50,7 +58,7 @@ onload = function(){
 			d[x] = new Array(width);
 			for(var y = 0 ; y < width ; y++){
 			
-			//new
+			//culculate signed distance
 			//
 				d[x][y] = computeDistPoint(y,x,NFList)*computeSignPoint(y,x,binImg);
 				if(dmax < d[x][y]){
@@ -71,7 +79,9 @@ onload = function(){
 				ListContourPlot(dntImg,entImg,i,j,nd);
 			}
 		}
-		console.log("fin");
 		context.putImageData(entImg, 0, 0);
-	};
+		console.timeEnd('process time: ');
+	//};
+	},false);
+	},false);
 }

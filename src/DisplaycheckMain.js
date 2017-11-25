@@ -20,6 +20,15 @@ function main(){
 	camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
 	camera.position.z = 10;
 	
+//	const fov = 45.0;
+//			const aspect = window.innerWidth / window.innerHeight;
+//			const near = 0.1;
+//			const far = 1000;
+//			const eyeZ = 3.5;
+//
+//			camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+//			camera.position.z = eyeZ;
+	
 	scene.add( camera );
 	
 	//RENDERER
@@ -28,7 +37,10 @@ function main(){
 	} else {
 	renderer = new THREE.CanvasRenderer(); 
 	}
-	renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	
+	renderer.setPixelRatio(window.devicePixelRatio);
+	renderer.setSize(window.innerWidth, window.innerHeight);
+//	renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 	renderer.setClearColor(0x000000,1.0)//(0xffffff);
 	container = document.getElementById('ThreeJS');
 	container.appendChild(renderer.domElement);
@@ -69,26 +81,28 @@ function main(){
 	scene.add(light6);
 	
 	//3D MODEL Preparations
-//	var loader = new THREE.STLLoader();
-//	loader.load( 'model/samurai4_64.stl', function ( geometry2 ) {
+	var loader = new THREE.STLLoader();
+	var geometry2 = new THREE.Geometry();
+	loader.load( 'model/samurai_64.stl', function ( geometry2 ) {
 	
-//		geometry2.mergeVertices(); //it calls error
-//		geometry2.computeFaceNormals();
-//		geometry2.computeVertexNormals();
+
 		
-//		 var colorMaterial =  new THREE.MeshPhongMaterial(
-//		{color: 0x7f7f7f, 
-//		 side: THREE.FrontSide,
-//		 flatShading: false,
-//		 wireframe: false} );
+//	var loader = new THREE.OBJLoader();
+//	loader.load( 'model/b.obj', function (object) {
+	//	geometry2.mergeVertices(); //it calls error
+		geometry2.computeFaceNormals();
+		geometry2.computeVertexNormals();
 		
-//		threeMesh = new THREE.Mesh( geometry2, colorMaterial );
+		 var colorMaterial =  new THREE.MeshPhongMaterial(
+		{color: 0x7f7f7f, 
+		 side: THREE.FrontSide,
+		 flatShading: false,
+		 wireframe: false
+		 });
+		
+		threeMesh = new THREE.Mesh( geometry2, colorMaterial );
 		
 		
-		
-	var loader = new THREE.OBJLoader();
-	loader.load( 'model/bunny.obj', function (object) {
-		threeMesh = object;//new THREE.Mesh( geometry2, colorMaterial );
 		
 		var menu = new function(){
 			this.integrate = function(){
