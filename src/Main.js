@@ -20,6 +20,19 @@ function main() {
 	var objfile = document.getElementById("selfile");
 	objfile.addEventListener("change", function(evt) {
 		dataUrl = URL.createObjectURL(objfile.files[0]);
+		
+		//
+		//getfilename
+		var a = objfile.files[0].name;
+		var b = a.indexOf(".");
+		
+		if(b < 0){
+			//console.log(a);
+		}
+		else //console.log(a.substring(0,b));
+		filename = a.substring(0,b)
+		
+		
 		console.time('process time: ');
 		AllProcessing();
 	},false);
