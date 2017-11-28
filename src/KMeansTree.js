@@ -1,6 +1,6 @@
 
 KcomputeDistPoint = function(x, y, cntList){
-
+	
 	var d = Number.MAX_VALUE;
 	var dt;
 	var c;
@@ -18,8 +18,8 @@ KcomputeDistPoint = function(x, y, cntList){
 	return result;
 	
 	//initG(center, center[c]+5,center[c]);
-	//_division[c]
-
+	//var ddd = division[c];
+	//var ccc = center[c];
 }
 
 var center = new Array(4);
@@ -28,8 +28,6 @@ var division = new Array(4);
 //
 //KMeansTree(width,height,NFList)
 KMeansTree = function(w, h, cntList){
-	//var center = new Array(4);
-//	var division = new Array(4);
 	
 	division[0] = [];
 	division[1] = [];
@@ -38,28 +36,28 @@ KMeansTree = function(w, h, cntList){
 	
 	InitG(center, w, h);
 	
-	console.log("def");
-	console.log(center[0].x +"," + center[0].y);
-	console.log(center[1].x +"," + center[1].y);
-	console.log(center[2].x +"," + center[2].y);
-	console.log(center[3].x +"," + center[3].y);
+//	console.log("def");
+//	console.log(center[0].x +"," + center[0].y);
+//	console.log(center[1].x +"," + center[1].y);
+//	console.log(center[2].x +"," + center[2].y);
+//	console.log(center[3].x +"," + center[3].y);
 	
-	StoreG(center, cntList, division,w,h);
+	StoreG(center, cntList, division);
 	
 	//test number of loop
 	for(var n = 0; n < 8 ; n=(n+1)|0){
 		CalcG(center, division);
-		//_division delete;
+		
 		division[0] = [];
 		division[1] = [];
 		division[2] = [];
 		division[3] = [];
 		
-		StoreG(center, cntList, division,w,h);
-		console.log(center[0].x +"," + center[0].y);
-		console.log(center[1].x +"," + center[1].y);
-		console.log(center[2].x +"," + center[2].y);
-		console.log(center[3].x +"," + center[3].y);
+		StoreG(center, cntList, division);
+//		console.log(center[0].x +","+ center[0].y);
+//		console.log(center[1].x +","+ center[1].y);
+//		console.log(center[2].x +","+ center[2].y);
+//		console.log(center[3].x +","+ center[3].y);
 	}
 }
 
@@ -77,9 +75,8 @@ InitG = function(_center,w,h){
 CalcG = function(_center, _division){
 	
 	for(var i = 0; i < 4; i=(i+1)|0){
-		var a=0;
-		var b=0;
-		
+		var a = 0;
+		var b = 0;
 		
 		if(_division[i].length == 0){
 		}
@@ -92,17 +89,13 @@ CalcG = function(_center, _division){
 			_center[i].y = Math.floor(b/_division[i].length);
 		}
 	}
-	console.log("----------------");
+//	console.log("----------------");
 }
 
-StoreG = function(_center, cntList,_division,w,h){
+StoreG = function(_center, cntList,_division){
 	
 	var dt;
 	var c;
-	var count0=0;
-	var count1=0;
-	var count2=0;
-	var count3=0;
 	
 	for(var i = 0; i < cntList.length; i=(i+1)|0){
 		var d = Number.MAX_VALUE;
@@ -118,23 +111,6 @@ StoreG = function(_center, cntList,_division,w,h){
 			}
 		}
 		_division[c].push(new Point2d(p.x, p.y));
-		if(c==0){count0++;}
-		if(c==1){count1++;}
-		if(c==2){count2++;}
-		if(c==3){count3++;}
-	}
-	
-	if(count0==cntList.length){
-//		InitG(_center,w/4,h/4);
-	}
-	if(count1==cntList.length){
-//		InitG(_center,w/4,h-(h/4));
-	}
-	if(count2==cntList.length){
-//		InitG(_center,w-(w/4),h/4);
-	}
-	if(count0==cntList.length){
-//		InitG(_center,w-(w/4),h-(h/4));
 	}
 }
 
