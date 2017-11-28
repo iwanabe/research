@@ -45,15 +45,15 @@ LoadImageAndGetContour = function(img){
 
 model.eval = function(x, y, z) {
 
-	var signeddistance1 = computeDistPoint(x,y,NFList)*computeSignPoint(x,y,binImg);
+	var signeddistance1 = KcomputeDistPoint(x,y,NFList)*computeSignPoint(x,y,binImg);
 	var v1 = Math.min(signeddistance1,z);
 	var value1 = Math.min(v1,zmax-z);
 	
-	var signeddistance2 = computeDistPoint(z,y,NFList)*computeSignPoint(z,y,binImg);
+	var signeddistance2 = KcomputeDistPoint(z,y,NFList)*computeSignPoint(z,y,binImg);
 	var v2 = Math.min(signeddistance2,x);
 	var value2 = Math.min(v2,width-x);
 	
-	var signeddistance3 = computeDistPoint(z,x,NFList)*computeSignPoint(z,x,binImg);
+	var signeddistance3 = KcomputeDistPoint(z,x,NFList)*computeSignPoint(z,x,binImg);
 	var v3 = Math.min(signeddistance3,y);
 	var value3 = Math.min(v3,height-y);
 	
