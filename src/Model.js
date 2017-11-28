@@ -12,53 +12,6 @@ var height;
 var zmax;
 
 //
-//
-kmeanstree = function(cntList){
-	var p1 = 0;
-	var p2 = 0;
-	var p3 = 0;
-	var p4 = 0;
-	
-	var c1 = cntList.length/4;
-	var c2 = cntList.legnth/2;
-	var c3 = c1 + c2;
-	var c4 = cntList.length;
-	
-	var i;
-	
-	for (i = 0; i < c1; i=(i+1)|0){
-		p1 = cntList[i];
-		x1 += p1.x;
-		y1 += p1.y;
-	}
-	for (; i < c2; i=(i+1)|0){
-		p2 += cntList[i];
-		x2 += p1.x;
-		y2 += p1.y;
-	}
-	for (; i < c3; i=(i+1)|0){
-		p3 += cntList[i];
-		x3 += p1.x;
-		y3 += p1.y;
-	}
-	for (; i < c4; i=(i+1)|0){
-		p4 += cntList[i];
-		x4 += p1.x;
-		y4 += p1.y;
-	}
-	x1 = x1/c1;
-	y1 = y1/c1;
-	x2 = x2/c2;
-	y2 = y2/c2;
-	x3 = x3/c3;
-	y3 = y3/c3;
-	x4 = x4/c4;
-	y4 = y4/c4;
-	
-}
-
-
-//
 //get contour from loaded image
 LoadImageAndGetContour = function(img){
 	width = img.width;
@@ -85,6 +38,8 @@ LoadImageAndGetContour = function(img){
 	binarize(cntImg, dntImg);
 	
 	getContour(dntImg,NFList);
+	
+	KMeansTree(width,height,NFList);
 }
 
 
