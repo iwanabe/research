@@ -1,6 +1,5 @@
 
 KcomputeDistPoint = function(x, y, cntList){
-	
 	var d = Number.MAX_VALUE;
 	var dt;
 	var c;
@@ -14,7 +13,17 @@ KcomputeDistPoint = function(x, y, cntList){
 			c = i;
 		}
 	}
-	
+//	else if(cntList.length > 1000){
+//		for(var i = 0; i < 16; i=(i+1)|0){
+//			var ppp = center16[i];
+//			dt = (ppp.x - x)*(ppp.x - x) + (ppp.y - y)*(ppp.y - y);
+//			
+//			if(dt <= d){
+//				d = dt;
+//				c = i;
+//			}
+//		}
+//	}
 //	if(division[c].length > 1000){
 //		
 //		var ddd = division[c];
@@ -31,6 +40,10 @@ KcomputeDistPoint = function(x, y, cntList){
 var center = new Array(4);
 var division = new Array(4);
 
+// large size of image 
+var center16 = new Array(16);
+var division16 = new Array(16);
+
 //
 //KMeansTree(width,height,NFList)
 KMeansTree = function(w, h, cntList, ccc){
@@ -42,11 +55,11 @@ KMeansTree = function(w, h, cntList, ccc){
 	
 	InitG(center, w, h, ccc);
 	
-//	console.log("def");
-//	console.log(center[0].x +"," + center[0].y);
-//	console.log(center[1].x +"," + center[1].y);
-//	console.log(center[2].x +"," + center[2].y);
-//	console.log(center[3].x +"," + center[3].y);
+	console.log("def");
+	console.log(center[0].x +"," + center[0].y);
+	console.log(center[1].x +"," + center[1].y);
+	console.log(center[2].x +"," + center[2].y);
+	console.log(center[3].x +"," + center[3].y);
 	
 	StoreG(center, cntList, division);
 	
@@ -60,11 +73,28 @@ KMeansTree = function(w, h, cntList, ccc){
 		division[3] = [];
 		
 		StoreG(center, cntList, division);
-//		console.log(center[0].x +","+ center[0].y);
-//		console.log(center[1].x +","+ center[1].y);
-//		console.log(center[2].x +","+ center[2].y);
-//		console.log(center[3].x +","+ center[3].y);
+		console.log(center[0].x +","+ center[0].y);
+		console.log(center[1].x +","+ center[1].y);
+		console.log(center[2].x +","+ center[2].y);
+		console.log(center[3].x +","+ center[3].y);
+		
+		console.log("0:"+division[0].length);
+		console.log("1:"+division[1].length);
+		console.log("2:"+division[2].length);
+		console.log("3:"+division[3].length);
 	}
+	
+//	if(cntList.length > 1000 ){
+//		KMeansTree16(w, h, division[0], 0);
+//		KMeansTree16(w, h, division[1], 1);
+//		KMeansTree16(w, h, division[2], 2);
+//		KMeansTree16(w, h, division[3], 3);
+//	}
+}
+
+KMeansTree16 = function(w, h, cntList, ccc){
+
+
 }
 
 InitG = function(_center, w, h, c){

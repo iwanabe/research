@@ -51,8 +51,8 @@ AllProcessing = function(){
 			console.log("please wait");
 			init();
 			animate();
-			console.timeEnd('process time: ');
 			exportToObj(); //ObjProcessing.js
+			console.timeEnd('process time: ');
 		},false);
 	}
 }
