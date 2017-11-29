@@ -15,17 +15,17 @@ KcomputeDistPoint = function(x, y, cntList){
 		}
 	}
 	
-	if(division[c].length > 1000){
-		
-		var ddd = division[c];
-		var ccc = center[c];
-		KMeansTree(width, height, division[c], c);
-		KcomputeDistPoint(x, y, cntList);
-	}
-	else {
+//	if(division[c].length > 1000){
+//		
+//		var ddd = division[c];
+//		var ccc = center[c];
+//		KMeansTree(width, height, division[c], c);
+//		KcomputeDistPoint(x, y, cntList);
+//	}
+//	else {
 		var result = computeDistPoint(x, y, division[c]);
 		return result;
-	}
+//	}
 }
 
 var center = new Array(4);
