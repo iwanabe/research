@@ -14,12 +14,18 @@ KcomputeDistPoint = function(x, y, cntList){
 			c = i;
 		}
 	}
-	var result = computeDistPoint(x, y, division[c]);
-	return result;
 	
-	//initG(center, center[c]+5,center[c]);
-	//var ddd = division[c];
-	//var ccc = center[c];
+	if(division[c].length > 1000){
+		
+		var ddd = division[c];
+		var ccc = center[c];
+		KMeansTree(width, height, division[c], c);
+		KcomputeDistPoint(x, y, cntList);
+	}
+	else {
+		var result = computeDistPoint(x, y, division[c]);
+		return result;
+	}
 }
 
 var center = new Array(4);
@@ -27,14 +33,14 @@ var division = new Array(4);
 
 //
 //KMeansTree(width,height,NFList)
-KMeansTree = function(w, h, cntList){
+KMeansTree = function(w, h, cntList, ccc){
 	
 	division[0] = [];
 	division[1] = [];
 	division[2] = [];
 	division[3] = [];
 	
-	InitG(center, w, h);
+	InitG(center, w, h, ccc);
 	
 //	console.log("def");
 //	console.log(center[0].x +"," + center[0].y);
@@ -45,7 +51,7 @@ KMeansTree = function(w, h, cntList){
 	StoreG(center, cntList, division);
 	
 	//test number of loop
-	for(var n = 0; n < 8 ; n=(n+1)|0){
+	for(var n = 0; n < 4 ; n=(n+1)|0){
 		CalcG(center, division);
 		
 		division[0] = [];
@@ -61,15 +67,57 @@ KMeansTree = function(w, h, cntList){
 	}
 }
 
-InitG = function(_center,w,h){
+InitG = function(_center, w, h, c){
 	
 	var x = w/2;
 	var y = h/2;
 	
-	_center[0] = new Point2d(Math.floor(x-(w/8)), Math.floor(y-(h/8)));
-	_center[1] = new Point2d(Math.floor(x+(w/8)), Math.floor(y-(h/8)));
-	_center[2] = new Point2d(Math.floor(x-(w/8)), Math.floor(y+(h/8)));
-	_center[3] = new Point2d(Math.floor(x+(w/8)), Math.floor(y+(h/8)));
+	if(c == 5){
+		_center[0] = new Point2d(Math.floor(x-(w/8)), Math.floor(y-(h/8)));
+		_center[1] = new Point2d(Math.floor(x+(w/8)), Math.floor(y-(h/8)));
+		_center[2] = new Point2d(Math.floor(x-(w/8)), Math.floor(y+(h/8)));
+		_center[3] = new Point2d(Math.floor(x+(w/8)), Math.floor(y+(h/8)));
+	}
+	else if(c==0){
+		x = x/2;
+		y = y/2;
+		w = w/2;
+		h = h/2;
+		_center[0] = new Point2d(Math.floor(x-(w/8)), Math.floor(y-(h/8)));
+		_center[1] = new Point2d(Math.floor(x+(w/8)), Math.floor(y-(h/8)));
+		_center[2] = new Point2d(Math.floor(x-(w/8)), Math.floor(y+(h/8)));
+		_center[3] = new Point2d(Math.floor(x+(w/8)), Math.floor(y+(h/8)));
+	}
+	else if(c==1){
+		x = x/2;
+		y = y/2;
+		w = w/2;
+		h = h/2;
+		_center[0] = new Point2d(Math.floor(x-(w/8)+(w/2)), Math.floor(y-(h/8)));
+		_center[1] = new Point2d(Math.floor(x+(w/8)+(w/2)), Math.floor(y-(h/8)));
+		_center[2] = new Point2d(Math.floor(x-(w/8)+(w/2)), Math.floor(y+(h/8)));
+		_center[3] = new Point2d(Math.floor(x+(w/8)+(w/2)), Math.floor(y+(h/8)));
+	}
+	else if(c==2){
+		x = x/2;
+		y = y/2;
+		w = w/2;
+		h = h/2;
+		_center[0] = new Point2d(Math.floor(x-(w/8)), Math.floor(y-(h/8)+(h/2)));
+		_center[1] = new Point2d(Math.floor(x+(w/8)), Math.floor(y-(h/8)+(h/2)));
+		_center[2] = new Point2d(Math.floor(x-(w/8)), Math.floor(y+(h/8)+(h/2)));
+		_center[3] = new Point2d(Math.floor(x+(w/8)), Math.floor(y+(h/8)+(h/2)));
+	}
+	else if(c==3){
+		x = x/2;
+		y = y/2;
+		w = w/2;
+		h = h/2;
+		_center[0] = new Point2d(Math.floor(x-(w/8)+(w/2)), Math.floor(y-(h/8)+(h/2)));
+		_center[1] = new Point2d(Math.floor(x+(w/8)+(w/2)), Math.floor(y-(h/8)+(h/2)));
+		_center[2] = new Point2d(Math.floor(x-(w/8)+(w/2)), Math.floor(y+(h/8)+(h/2)));
+		_center[3] = new Point2d(Math.floor(x+(w/8)+(w/2)), Math.floor(y+(h/8)+(h/2)));
+	}
 }
 
 CalcG = function(_center, _division){
@@ -89,7 +137,7 @@ CalcG = function(_center, _division){
 			_center[i].y = Math.floor(b/_division[i].length);
 		}
 	}
-//	console.log("----------------");
+	console.log("----------------");
 }
 
 StoreG = function(_center, cntList,_division){

@@ -39,7 +39,7 @@ LoadImageAndGetContour = function(img){
 	
 	getContour(dntImg,NFList);
 	
-	KMeansTree(width,height,NFList);
+	KMeansTree(width,height,NFList, 5);
 }
 
 
