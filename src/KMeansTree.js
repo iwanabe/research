@@ -50,16 +50,20 @@ KMeansTree = function(w, h, cntList, ccc){
 	
 	InitG(center, w, h, ccc);
 	
-//	console.log("def");
-//	console.log(center[0].x +"," + center[0].y);
-//	console.log(center[1].x +"," + center[1].y);
-//	console.log(center[2].x +"," + center[2].y);
-//	console.log(center[3].x +"," + center[3].y);
-	
 	StoreG(center, cntList, division);
 	
+	var checkcenter0;
+	var checkcenter1;
+	var checkcenter2;
+	var checkcenter3;
+	
 	//test number of loop
-	for(var n = 0; n < 4 ; n=(n+1)|0){
+	for(var n = 0; n < 100 ; n=(n+1)|0){
+		checkcenter0 = center[0].y;
+		checkcenter1 = center[1].y;
+		checkcenter2 = center[2].y;
+		checkcenter3 = center[3].y;
+		
 		CalcG(center, division);
 		
 		division[0] = [];
@@ -68,17 +72,17 @@ KMeansTree = function(w, h, cntList, ccc){
 		division[3] = [];
 		
 		StoreG(center, cntList, division);
-//		console.log(center[0].x +","+ center[0].y);
-//		console.log(center[1].x +","+ center[1].y);
-//		console.log(center[2].x +","+ center[2].y);
-//		console.log(center[3].x +","+ center[3].y);
 		
-//		console.log("0:"+division[0].length);
-//		console.log("1:"+division[1].length);
-//		console.log("2:"+division[2].length);
-//		console.log("3:"+division[3].length);
+		if(
+			checkcenter0 == center[0].y&&
+			checkcenter1 == center[1].y&&
+			checkcenter2 == center[2].y&&
+			checkcenter3 == center[3].y
+		){
+			console.log(n+":break");
+			break;
+		}
 	}
-	
 	
 	if(cntList.length > 1000 ){
 		var d0 = division[0];
@@ -101,16 +105,15 @@ KMeansTree16 = function(w, h, cntList, ccc){
 	
 	InitG(center, w, h, ccc);
 	
-//	console.log("def");
-//	console.log(center[0].x +"," + center[0].y);
-//	console.log(center[1].x +"," + center[1].y);
-//	console.log(center[2].x +"," + center[2].y);
-//	console.log(center[3].x +"," + center[3].y);
-	
 	StoreG(center, cntList, division);
 	
+	
 	//test number of loop
-	for(var n = 0; n < 4 ; n=(n+1)|0){
+	for(var n = 0; n < 100 ; n=(n+1)|0){
+		var checkcenter0 = center[0].y;
+		var checkcenter1 = center[1].y;
+		var checkcenter2 = center[2].y;
+		var checkcenter3 = center[3].y;
 		CalcG(center, division);
 		
 		division[0] = [];
@@ -119,30 +122,21 @@ KMeansTree16 = function(w, h, cntList, ccc){
 		division[3] = [];
 		
 		StoreG(center, cntList, division);
-//		console.log(center[0].x +","+ center[0].y);
-//		console.log(center[1].x +","+ center[1].y);
-//		console.log(center[2].x +","+ center[2].y);
-//		console.log(center[3].x +","+ center[3].y);
 		
-//		console.log("0:"+division[0].length);
-//		console.log("1:"+division[1].length);
-//		console.log("2:"+division[2].length);
-//		console.log("3:"+division[3].length);
+		if(
+			checkcenter0 == center[0].y&&
+			checkcenter1 == center[1].y&&
+			checkcenter2 == center[2].y&&
+			checkcenter3 == center[3].y
+		){
+			console.log(n+":break");
+			break;
+		}
 	}
 	for(var i = 0; i<4;i++){
 		division16[i+ccc*4] = division[i];
 		center16[i+ccc*4] = center[i];
 	}
-//	console.log("16");
-//	console.log(center16[4*ccc+0].x +","+ center16[4*ccc].y);
-//	console.log(center16[4*ccc+1].x +","+ center16[4*ccc+1].y);
-//	console.log(center16[4*ccc+2].x +","+ center16[4*ccc+2].y);
-//	console.log(center16[4*ccc+3].x +","+ center16[4*ccc+3].y);
-	
-//	console.log("0:16:"+division16[4*ccc+0].length);
-//	console.log("1:16:"+division16[4*ccc+2].length);
-//	console.log("2:16:"+division16[4*ccc+2].length);
-//	console.log("3:16:"+division16[4*ccc+3].length);
 }
 
 InitG = function(_center, w, h, c){
@@ -215,7 +209,7 @@ CalcG = function(_center, _division){
 			_center[i].y = Math.floor(b/_division[i].length);
 		}
 	}
-//	console.log("----------------");
+	console.log("----------------");
 }
 
 StoreG = function(_center, cntList,_division){
