@@ -146,7 +146,7 @@ computeDistPoint = function(x, y, cntList) {
 		var d = Number.MAX_VALUE;
 		
 		for (var i = 0; i < cntList.length; i=(i+1)|0){
-			p = cntList[i];
+			var p = cntList[i];
 			var dt = (x - p.x)*(x - p.x) + (y - p.y)*(y - p.y);
 			if (dt < d) {
 				d = dt;
