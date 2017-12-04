@@ -38,12 +38,20 @@ var center = new Array(4);
 var division = new Array(4);
 
 // large size of image 
-var center16 = new Array(16);
-var division16 = new Array(16);
+var centerD1 = new Array(4);
+var divisionD1 = new Array(4);
+
+var centerTree = [];
+var divisionTree = (new Array(340)).fill(0);
+//var divisionTree = new Array(340);
+var countTree = 0;
+var countfunction = 0;
 
 //
 //KMeansTree(width,height,NFList)
 KMeansTree = function(w, h, cntList, ccc){
+	
+//	if(cntList.length > 500){
 	
 	division[0] = [];
 	division[1] = [];
@@ -74,7 +82,7 @@ KMeansTree = function(w, h, cntList, ccc){
 		division[3] = [];
 		
 		StoreG(center, cntList, division);
-
+		
 		if(
 			checkcenter0 == center[0].y&&
 			checkcenter1 == center[1].y&&
@@ -86,68 +94,49 @@ KMeansTree = function(w, h, cntList, ccc){
 			console.log("1:"+division[1].length);
 			console.log("2:"+division[2].length);
 			console.log("3:"+division[3].length);
+			console.log("-------");
 			break;
 		}
 	}
 	
-	if(cntList.length > 1000 ){
+//	if(cntList.length > 500){
 		var d0 = division[0];
 		var d1 = division[1];
 		var d2 = division[2];
 		var d3 = division[3];
-		KMeansTree16(w, h, d0, 0);
-		KMeansTree16(w, h, d1, 1);
-		KMeansTree16(w, h, d2, 2);
-		KMeansTree16(w, h, d3, 3);
-	}
-}
-
-KMeansTree16 = function(w, h, cntList, ccc){
-	
-	division[0] = [];
-	division[1] = [];
-	division[2] = [];
-	division[3] = [];
-	
-	InitG(center, w, h, ccc);
-	
-	StoreG(center, cntList, division);
-	
-	var checkcenter0;
-	var checkcenter1;
-	var checkcenter2;
-	var checkcenter3;
-	//test number of loop
-	for(var n = 0; n < 100 ; n=(n+1)|0){
-		checkcenter0 = center[0].y;
-		checkcenter1 = center[1].y;
-		checkcenter2 = center[2].y;
-		checkcenter3 = center[3].y;
-		
-		CalcG(center, division);
-		
-		division[0] = [];
-		division[1] = [];
-		division[2] = [];
-		division[3] = [];
-		
-		StoreG(center, cntList, division);
-		
+		var aaaa = 0;
 		if(
-			checkcenter0 == center[0].y&&
-			checkcenter1 == center[1].y&&
-			checkcenter2 == center[2].y&&
-			checkcenter3 == center[3].y
+			d0.length > 300 &&
+			d1.length > 300 &&
+			d2.length > 300 &&
+			d3.length > 300 
 		){
-			console.log("-------"+n+":break");
-			break;
+		console.log("---------down");
+		if(ccc==0||ccc==5){countfunction++;aaaa=1;}
+		KMeansTree(w, h, d0, 0);
+		KMeansTree(w, h, d1, 1);
+		KMeansTree(w, h, d2, 2);
+		KMeansTree(w, h, d3, 3);
+		divisionTree[countTree++] = d0;
+		divisionTree[countTree++] = d1;
+		divisionTree[countTree++] = d2;
+		divisionTree[countTree++] = d3;
+		console.log("---------up");
+		if(ccc==3){countfunction--;}
 		}
+//	}
+	else {
+		for(var i = 0; i < 4; i++){
+//			division16[i+ccc*4] = division[i];
+//			centerTree16[i+ccc*4] = center[i];
+
+			divisionTree[countTree] = division[i];
+			centerTree[countTree++] = center[i];
+		}
+		
 	}
-	for(var i = 0; i<4;i++){
-		console.log((i+ccc*4)+":"+division[i].length);
-		division16[i+ccc*4] = division[i];
-		center16[i+ccc*4] = center[i];
-	}
+	console.log("count:"+countTree);
+	console.log("cf:"+countfunction);
 }
 
 InitG = function(_center, w, h, c){
