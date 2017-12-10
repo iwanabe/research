@@ -30,18 +30,22 @@ function initMesh(text) {
 		// remove any previously loaded mesh from scene
 		scene.remove(threeMesh);
 		memoryManager.deleteExcept([]);
-
+		
 		// create geometry object
 		geometry = new Geometry(mesh, polygonSoup["v"]);
-	
+		
 		// create a THREE.js mesh (and geometry) object
 		initThreeMesh();
 		scene.add(threeMesh);
-
+		
+		
+		
+		
+		
 		// initialize mean curvature flows
 		meanCurvatureFlow = new MeanCurvatureFlow(geometry);
 		modifiedMeanCurvatureFlow = new ModifiedMeanCurvatureFlow(geometry);
-
+		
 		// update metadata
 //		let element = document.getElementById("meta");
 //		element.textContent = "";
@@ -87,6 +91,14 @@ function initThreeMesh() {
 			indices[3 * f.index + i++] = v.index;
 		}
 	}
+	
+	console.log("mesh:"+mesh.faces.length);
+		for(var i=0;i<mesh.length;i++){
+		
+			var a=mesh[i].faces.length;
+			if( a<= 100){console.log("aaa");}
+			else console.log("bbb");
+		}
 
 	// set geometry
 	threeGeometry.setIndex(new THREE.BufferAttribute(indices, 1));

@@ -32,7 +32,6 @@ function main() {
 		else //console.log(a.substring(0,b));
 		filename = a.substring(0,b)
 		
-		
 		console.time('process time: ');
 		AllProcessing();
 	},false);
@@ -174,7 +173,6 @@ function init() {
 	threeMesh.translateZ(-z_range/2.0);
 	
 	scene.add(threeMesh);
-	
 	
 	//GUI
 	gui = new dat.GUI();
