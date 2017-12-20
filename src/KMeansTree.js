@@ -14,7 +14,7 @@ KcomputeDistPoint = function(x, y, cntList){
 			c = i;
 		}
 	}
-	if(cntList.length < 1000){
+	if(cntList.length < 100){
 		var result = computeDistPoint(x, y, division[c]);
 		return result;
 	}
@@ -90,7 +90,7 @@ KMeansTree = function(w, h, cntList, ccc){
 		}
 	}
 	
-	if(cntList.length > 1000 ){
+	if(cntList.length > 100 ){
 		var d0 = division[0];
 		var d1 = division[1];
 		var d2 = division[2];

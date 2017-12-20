@@ -92,14 +92,6 @@ function initThreeMesh() {
 		}
 	}
 	
-	console.log("mesh:"+mesh.faces.length);
-		for(var i=0;i<mesh.length;i++){
-		
-			var a=mesh[i].faces.length;
-			if( a<= 100){console.log("aaa");}
-			else console.log("bbb");
-		}
-
 	// set geometry
 	threeGeometry.setIndex(new THREE.BufferAttribute(indices, 1));
 	threeGeometry.addAttribute("position", new THREE.BufferAttribute(positions, 3));
